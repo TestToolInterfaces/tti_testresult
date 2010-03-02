@@ -3,7 +3,7 @@
  */
 package org.testtoolinterfaces.testresult;
 
-import java.util.Calendar;
+//import java.util.Calendar;
 import java.util.Hashtable;
 
 import org.testtoolinterfaces.utils.Trace;
@@ -26,8 +26,8 @@ public abstract class TestResult
 	private VERDICT myResult = VERDICT.UNKNOWN;
 	private Hashtable<String, String> myLogs;
 	private String myComment = "";
-    private Calendar myStartDate;
-    private Calendar myEndDate;
+//    private Calendar myStartDate;
+//    private Calendar myEndDate;
 	
 	public TestResult()
 	{
