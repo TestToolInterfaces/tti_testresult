@@ -3,7 +3,7 @@
  */
 package org.testtoolinterfaces.testresult;
 
-import org.testtoolinterfaces.testsuite.ParameterTable;
+import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
 import org.testtoolinterfaces.testsuite.TestStep.ActionType;
 
@@ -58,7 +58,7 @@ public class TestStepResult extends TestResult
 		return myTestStep.getScript();
 	}
 
-	public ParameterTable getParameters()
+	public ParameterArrayList getParameters()
 	{
 	    Trace.println(Trace.LEVEL.GETTER);
 		return myTestStep.getParameters();
