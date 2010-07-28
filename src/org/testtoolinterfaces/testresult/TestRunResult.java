@@ -47,7 +47,7 @@ public class TestRunResult
 						  Calendar aStartDate,
 						  TEST_RUN_STATUS aStatus)
 	{
-	    Trace.println(Trace.LEVEL.CONSTRUCTOR);
+	    Trace.println(Trace.CONSTRUCTOR);
 
 		myTestSuite = aTestSuite;
 		myDisplayName = aDisplayName;
@@ -65,7 +65,7 @@ public class TestRunResult
 	 */
 	public void setStatus(TEST_RUN_STATUS aStatus)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		myStatus = aStatus;
 	}
 
@@ -74,7 +74,7 @@ public class TestRunResult
 	 */
 	public void setEndDate(Calendar anEndDate)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 	    myEndDate = anEndDate;
 	}
 
@@ -83,7 +83,7 @@ public class TestRunResult
 	 */
 	public void setTestGroup(TestGroupResult aTestGroup)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 	    myTestGroup = aTestGroup;
 	}
 
@@ -93,7 +93,7 @@ public class TestRunResult
 	 */
 	public void addSutLog(String aKey, String aLog)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		mySut.addSutLog(aKey, aLog);
 	}
 
@@ -102,7 +102,8 @@ public class TestRunResult
 	 */
 	public int getNrOfTCs()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
+	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getNrOfTCs();
 	}
 
@@ -111,7 +112,8 @@ public class TestRunResult
 	 */
 	public int getNrOfTCsPassed()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
+	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getNrOfTCsPassed();
 	}
 
@@ -120,7 +122,8 @@ public class TestRunResult
 	 */
 	public int getNrOfTCsFailed()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
+	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getNrOfTCsFailed();
 	}
 
@@ -129,7 +132,7 @@ public class TestRunResult
 	 */
 	public String getAuthor()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myAuthor;
 	}
 
@@ -138,7 +141,7 @@ public class TestRunResult
 	 */
 	public String getDisplayName()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myDisplayName;
 	}
 
@@ -147,7 +150,7 @@ public class TestRunResult
 	 */
 	public String getMachine()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myMachine;
 	}
 
@@ -156,7 +159,7 @@ public class TestRunResult
 	 */
 	public Calendar getStartDate()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myStartDate;
 	}
 
@@ -165,7 +168,7 @@ public class TestRunResult
 	 */
 	public String getStartDateString()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 	    return convertDateString( myStartDate );
 	}
 
@@ -174,7 +177,7 @@ public class TestRunResult
 	 */
 	public String getStartTimeString()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 	    return convertTimeString( myStartDate );
 	}
 
@@ -183,7 +186,7 @@ public class TestRunResult
 	 */
 	public Calendar getEndDate()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myEndDate;
 	}
 
@@ -192,8 +195,8 @@ public class TestRunResult
 	 */
 	public String getEndDateString()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
-	    return convertDateString( myStartDate );
+	    Trace.println(Trace.GETTER);
+	    return convertDateString( myEndDate );
 	}
 
 	/**
@@ -201,8 +204,8 @@ public class TestRunResult
 	 */
 	public String getEndTimeString()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
-	    return convertTimeString( myStartDate );
+	    Trace.println(Trace.GETTER);
+	    return convertTimeString( myEndDate );
 	}
 
 	/**
@@ -210,7 +213,7 @@ public class TestRunResult
 	 */
 	public Hashtable<String, String> getRunLogs()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myRunLogs;
 	}
 
@@ -219,7 +222,7 @@ public class TestRunResult
 	 */
 	public TEST_RUN_STATUS getStatus()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myStatus;
 	}
 
@@ -228,7 +231,7 @@ public class TestRunResult
 	 */
 	public String getSutDescription()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySut.getDescription();
 	}
 
@@ -237,7 +240,7 @@ public class TestRunResult
 	 */
 	public Hashtable<String, String> getSutLogs()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySut.getLogs();
 	}
 
@@ -246,7 +249,7 @@ public class TestRunResult
 	 */
 	public String getSutProduct()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySut.getName();
 	}
 
@@ -255,7 +258,7 @@ public class TestRunResult
 	 */
 	public String getSutVersionMainLevel()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySut.getVersionMainLevel();
 	}
 
@@ -264,7 +267,7 @@ public class TestRunResult
 	 */
 	public String getSutVersionSubLevel()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySut.getVersionSubLevel();
 	}
 
@@ -273,7 +276,7 @@ public class TestRunResult
 	 */
 	public String getSutVersionPatchLevel()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySut.getVersionPatchLevel();
 	}
 
@@ -282,13 +285,13 @@ public class TestRunResult
 	 */
 	public String getTestSuite()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestSuite;
 	}
 
 	public TestGroupResult getTestGroup()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestGroup;
 	}
 
@@ -298,6 +301,8 @@ public class TestRunResult
 	private static String convertDateString( Calendar aDate )
 	{
 	    Trace.println(Trace.ALL);
+	    if ( aDate == null ) { return "Unknown"; }
+
 	    String dateString = aDate.get(Calendar.YEAR) + "-";
 	    int month = aDate.get(Calendar.MONTH)+1;
 	    if ( month < 10 )
@@ -329,8 +334,9 @@ public class TestRunResult
 	private static String convertTimeString( Calendar aDate )
 	{
 	    Trace.println(Trace.ALL);
-	    String timeString = "";
+	    if ( aDate == null ) { return "Unknown"; }
 
+	    String timeString = "";
 	    int hours = aDate.get(Calendar.HOUR_OF_DAY);
 	    if ( hours < 10 )
 	    {
