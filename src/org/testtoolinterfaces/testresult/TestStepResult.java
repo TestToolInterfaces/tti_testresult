@@ -24,43 +24,49 @@ public class TestStepResult extends TestResult
 	{
 		super();
 
-	    Trace.println(Trace.LEVEL.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
+	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
 		myTestStep = aTestStep;
 	}
 
 	public ActionType getType()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestStep.getActionType();
 	}
 	
 	public int getSequenceNr()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestStep.getSequenceNr();
 	}
 	
 	public String getDescription()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestStep.getDescription();
+	}
+	
+	public String getDisplayName()
+	{
+	    Trace.println(Trace.GETTER);
+		return myTestStep.getDisplayName();
 	}
 	
 	public String getCommand()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestStep.getCommand();
 	}
 
 	public String getScript()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestStep.getScript();
 	}
 
 	public ParameterArrayList getParameters()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestStep.getParameters();
 	}
 }

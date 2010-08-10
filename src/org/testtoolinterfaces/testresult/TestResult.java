@@ -31,7 +31,7 @@ public abstract class TestResult
 	
 	public TestResult()
 	{
-	    Trace.println(Trace.LEVEL.CONSTRUCTOR);
+	    Trace.println(Trace.CONSTRUCTOR);
 		myLogs = new Hashtable<String, String>();
 	}
 
@@ -47,7 +47,7 @@ public abstract class TestResult
 	 */
 	public void setResult(VERDICT aResult)
 	{
-	    Trace.println(Trace.LEVEL.SETTER, "setResult( " + aResult + " )", true);
+	    Trace.println(Trace.SETTER, "setResult( " + aResult + " )", true);
 	    if (myResult.compareTo(aResult) < 0)
 	    {
 	        myResult = aResult;
@@ -56,13 +56,13 @@ public abstract class TestResult
 
 	public void addTestLog(String aKey, String aLog)
 	{
-	    Trace.println(Trace.LEVEL.SETTER, "addTestLog( " + aKey + ", " + aLog + " )", true);
+	    Trace.println(Trace.SETTER, "addTestLog( " + aKey + ", " + aLog + " )", true);
 	    myLogs.put(aKey, aLog);
 	}
 
 	public void setComment(String aComment)
 	{
-	    Trace.println(Trace.LEVEL.SETTER, "setComment( " + aComment + " )", true);
+	    Trace.println(Trace.SETTER, "setComment( " + aComment + " )", true);
 	    myComment = aComment;
 	}
 
@@ -78,19 +78,19 @@ public abstract class TestResult
 
 	public VERDICT getResult()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 	    return myResult;
 	}
 
 	public Hashtable<String, String> getLogs()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 	    return myLogs;
 	}
 
 	public String getComment()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 	    return myComment;
 	}
 }
