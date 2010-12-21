@@ -18,10 +18,11 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestGroupResult extends TestResult
 {
     private TestGroup myTestGroup;
+    private ResultTiming myTiming;
 
-    private Hashtable<Integer, TestStepResult> myInitializationResults;
-    private Hashtable<Integer, TestCaseResult> myTestCaseResults;
-    private Hashtable<Integer, TestGroupResult> myTestGroupResults;
+    private Hashtable<Integer, TestStepResult> myPrepareResults;
+    private Hashtable<Integer, TestCaseResultLink> myTestCaseResultLinks;
+    private Hashtable<Integer, TestGroupResultLink> myTestGroupResultLinks;
     private Hashtable<Integer, TestStepResult> myRestoreResults;
 
     /**
@@ -34,34 +35,34 @@ public class TestGroupResult extends TestResult
 	    Trace.println(Trace.CONSTRUCTOR, "TestGroupResult( " + aTestGroup + " )" );
 	    myTestGroup = aTestGroup;
 
-		myInitializationResults = new Hashtable<Integer, TestStepResult>();
-		myTestCaseResults = new Hashtable<Integer, TestCaseResult>();
-		myTestGroupResults = new Hashtable<Integer, TestGroupResult>();
+		myPrepareResults = new Hashtable<Integer, TestStepResult>();
+		myTestCaseResultLinks = new Hashtable<Integer, TestCaseResultLink>();
+		myTestGroupResultLinks = new Hashtable<Integer, TestGroupResultLink>();
 		myRestoreResults = new Hashtable<Integer, TestStepResult>();
 	}
 
 	/**
-	 * @param anInitializationResult
+	 * @param aPrepareResult
 	 */
-	public void addInitialization(TestStepResult anInitializationResult)
+	public void addInitialization(TestStepResult aPrepareResult)
 	{
 	    Trace.println(Trace.SETTER);
-	    myInitializationResults.put( myInitializationResults.size(), anInitializationResult );
+	    myPrepareResults.put( myPrepareResults.size(), aPrepareResult );
 	}
 
 	/**
 	 * @param anInitializationResult
 	 */
-	public void addTestCase(TestCaseResult aTestCaseResult)
+	public void addTestCase(TestCaseResultLink aTestCaseResultLink)
 	{
 	    Trace.println(Trace.SETTER);
-	    myTestCaseResults.put( myTestCaseResults.size(), aTestCaseResult );
+	    myTestCaseResultLinks.put( myTestCaseResultLinks.size(), aTestCaseResultLink );
 	}
 
-	public void addTestGroup(TestGroupResult aTestGroupResult)
+	public void addTestGroup(TestGroupResultLink aTestGroupResultLink)
 	{
 	    Trace.println(Trace.SETTER);
-	    myTestGroupResults.put( myTestGroupResults.size(), aTestGroupResult );
+	    myTestGroupResultLinks.put( myTestGroupResultLinks.size(), aTestGroupResultLink );
 	}
 
 	/**
@@ -82,12 +83,6 @@ public class TestGroupResult extends TestResult
 		return myTestGroup.getId();
 	}
 
-	public int getSequenceNr()
-	{
-	    Trace.println(Trace.GETTER);
-		return myTestGroup.getSequenceNr();
-	}
-	
 	public String getDescription()
 	{
 	    Trace.println(Trace.GETTER);
@@ -100,22 +95,22 @@ public class TestGroupResult extends TestResult
 		return myTestGroup.getRequirements();
 	}
 	
-	public Hashtable<Integer, TestStepResult> getInitializationResults()
+	public Hashtable<Integer, TestStepResult> getPrepareResults()
 	{
 	    Trace.println(Trace.GETTER);
-		return myInitializationResults;
+		return myPrepareResults;
 	}
 	
-	public Hashtable<Integer, TestCaseResult> getTestCaseResults()
+	public Hashtable<Integer, TestCaseResultLink> getTestCaseResultLinks()
 	{
 	    Trace.println(Trace.GETTER);
-		return myTestCaseResults;
+		return myTestCaseResultLinks;
 	}
 	
-	public Hashtable<Integer, TestGroupResult> getTestGroupResults()
+	public Hashtable<Integer, TestGroupResultLink> getTestGroupResultLinks()
 	{
 	    Trace.println(Trace.GETTER);
-		return myTestGroupResults;
+		return myTestGroupResultLinks;
 	}
 	
 	public Hashtable<Integer, TestStepResult> getRestoreResults()
@@ -124,69 +119,6 @@ public class TestGroupResult extends TestResult
 		return myRestoreResults;
 	}
 
-	/**
-	 * @return
-	 */
-	public int getNrOfTCs()
-	{
-	    Trace.println(Trace.GETTER);
-		int nrOfTCs = myTestCaseResults.size();
-	    for (Enumeration<Integer> keys = myTestGroupResults.keys(); keys.hasMoreElements();)
-	    {
-	    	nrOfTCs += myTestGroupResults.get(keys.nextElement()).getNrOfTCs();
-	    }
-
-	    return nrOfTCs;
-	}
-
-	/**
-	 * @return
-	 */
-	public int getNrOfTCsPassed()
-	{
-	    Trace.println(Trace.GETTER);
-		int nrOfTCsPassed = 0;
-	    for (Enumeration<Integer> keys = myTestCaseResults.keys(); keys.hasMoreElements();)
-	    {
-	    	if ( myTestCaseResults.get(keys.nextElement()).getResult() == VERDICT.PASSED )
-	    	{
-	    		nrOfTCsPassed += 1;
-	    	}
-	    }
-	    
-	    for (Enumeration<Integer> keys = myTestGroupResults.keys(); keys.hasMoreElements();)
-	    {
-    		nrOfTCsPassed += myTestGroupResults.get(keys.nextElement()).getNrOfTCsPassed();
-	    }
-
-	    return nrOfTCsPassed;
-	}
-
-
-	/**
-	 * @return the number of failed test cases
-	 * Note: in this number any test case that is not passed is failed, also the UNKNOWN and ERROR results
-	 */
-	public int getNrOfTCsFailed()
-	{
-	    Trace.println(Trace.GETTER);
-		int nrOfTCsFailed = 0;
-	    for (Enumeration<Integer> keys = myTestCaseResults.keys(); keys.hasMoreElements();)
-	    {
-	    	if ( myTestCaseResults.get(keys.nextElement()).getResult() != VERDICT.PASSED )
-	    	{
-	    		nrOfTCsFailed += 1;
-	    	}
-	    }
-
-	    for (Enumeration<Integer> keys = myTestGroupResults.keys(); keys.hasMoreElements();)
-	    {
-	    	nrOfTCsFailed += myTestGroupResults.get(keys.nextElement()).getNrOfTCsFailed();
-	    }
-
-	    return nrOfTCsFailed;
-	}
-	
 	public void setResult(VERDICT aResult)
 	{
 		// NOP
@@ -201,5 +133,55 @@ public class TestGroupResult extends TestResult
 	{
 	    Trace.println(Trace.GETTER);
 		return VERDICT.UNKNOWN;
+	}
+
+	/**
+	 * @return the myTiming
+	 */
+	public ResultTiming getTiming()
+	{
+		return myTiming;
+	}
+	
+	public ResultSummary getSummary()
+	{
+	    Trace.println(Trace.GETTER);
+
+	    int nrOfTCsPassed = 0;
+		int nrOfTCsFailed = 0;
+		int nrOfTCsUnknown = 0;
+		int nrOfTCsError = 0;
+
+	    for (Enumeration<Integer> keys = myTestCaseResultLinks.keys(); keys.hasMoreElements();)
+	    {
+	    	VERDICT verdict = myTestCaseResultLinks.get(keys.nextElement()).getResult();
+	    	if ( verdict == VERDICT.PASSED )
+	    	{
+	    		nrOfTCsPassed += 1;
+	    	}
+	    	else if ( verdict == VERDICT.FAILED )
+	    	{
+	    		nrOfTCsFailed += 1;
+	    	}
+	    	else if ( verdict == VERDICT.UNKNOWN )
+	    	{
+	    		nrOfTCsUnknown += 1;
+	    	}
+	    	else if ( verdict == VERDICT.ERROR )
+	    	{
+	    		nrOfTCsError += 1;
+	    	}
+	    }
+	    
+	    for (Enumeration<Integer> keys = myTestGroupResultLinks.keys(); keys.hasMoreElements();)
+	    {
+	    	ResultSummary summary = myTestGroupResultLinks.get(keys.nextElement()).getSummary();
+    		nrOfTCsPassed += summary.getNrOfTCsPassed();
+	    	nrOfTCsFailed += summary.getNrOfTCsFailed();
+	    	nrOfTCsUnknown += summary.getNrOfTCsUnknown();
+	    	nrOfTCsError += summary.getNrOfTCsError();
+	    }
+
+	    return new ResultSummary( nrOfTCsPassed, nrOfTCsFailed, nrOfTCsUnknown, nrOfTCsError );
 	}
 }

@@ -97,6 +97,12 @@ public class TestRunResult
 		mySut.addSutLog(aKey, aLog);
 	}
 
+	public ResultSummary getSummary()
+	{
+	    Trace.println(Trace.GETTER);
+	    return myTestGroup.getSummary();
+	}
+
 	/**
 	 * @return
 	 */
@@ -104,7 +110,7 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.GETTER);
 	    if (myTestGroup == null) { return 0; }
-	    return myTestGroup.getNrOfTCs();
+	    return myTestGroup.getSummary().getNrOfTCs();
 	}
 
 	/**
@@ -114,7 +120,7 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.GETTER);
 	    if (myTestGroup == null) { return 0; }
-	    return myTestGroup.getNrOfTCsPassed();
+	    return myTestGroup.getSummary().getNrOfTCsPassed();
 	}
 
 	/**
@@ -124,7 +130,7 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.GETTER);
 	    if (myTestGroup == null) { return 0; }
-	    return myTestGroup.getNrOfTCsFailed();
+	    return myTestGroup.getSummary().getNrOfTCsFailed();
 	}
 
 	/**
