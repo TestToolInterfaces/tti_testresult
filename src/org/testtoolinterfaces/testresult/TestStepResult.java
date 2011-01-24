@@ -3,6 +3,8 @@
  */
 package org.testtoolinterfaces.testresult;
 
+import java.util.ArrayList;
+
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStepSimple;
 import org.testtoolinterfaces.testsuite.TestStepCommand;
@@ -19,7 +21,9 @@ public class TestStepResult extends TestResult
 {
 	private TestStepSimple myTestStep;
 
-	/**
+    private ArrayList<TestStepResultObserver> myObserverCollection;
+
+    /**
 	 * @param aTestCaseName
 	 */
 	public TestStepResult(TestStepSimple aTestStep)
@@ -28,6 +32,8 @@ public class TestStepResult extends TestResult
 
 	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
 		myTestStep = aTestStep;
+
+		myObserverCollection = new ArrayList<TestStepResultObserver>();
 	}
 
 	public StepType getType()
@@ -78,5 +84,29 @@ public class TestStepResult extends TestResult
 	{
 	    Trace.println(Trace.GETTER);
 		return myTestStep.getParameters();
+	}
+
+	// Implementation of the Observer Pattern
+	
+	protected void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestStepResultObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register( TestStepResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver( TestStepResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
 	}
 }

@@ -3,6 +3,7 @@
  */
 package org.testtoolinterfaces.testresult;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Calendar;
 
@@ -12,7 +13,7 @@ import org.testtoolinterfaces.utils.Trace;
  * @author Arjan Kranenburg
  *
  */
-public class TestRunResult
+public class TestRunResult implements TestGroupResultObserver
 {
 	public enum TEST_RUN_STATUS { STARTED, FINISHED };
 
@@ -29,6 +30,8 @@ public class TestRunResult
     private SutInfo mySut;
 	private Hashtable<String, String> myRunLogs;
     private TestGroupResult myTestGroup;
+
+    private ArrayList<TestRunResultObserver> myObserverCollection;
 
     /**
 	 * @param aTestSuite
@@ -58,6 +61,8 @@ public class TestRunResult
 		mySut = aSut;
         myRunLogs = new Hashtable<String, String>();
         myTestGroup = null;
+
+		myObserverCollection = new ArrayList<TestRunResultObserver>();
 	}
 
 	/**
@@ -67,6 +72,8 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.SETTER);
 		myStatus = aStatus;
+	    
+	    notifyObservers();
 	}
 
 	/**
@@ -76,6 +83,8 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.SETTER);
 	    myEndDate = anEndDate;
+	    
+	    notifyObservers();
 	}
 
 	/**
@@ -85,6 +94,10 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.SETTER);
 	    myTestGroup = aTestGroup;
+	    
+	    aTestGroup.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
@@ -95,6 +108,8 @@ public class TestRunResult
 	{
 	    Trace.println(Trace.SETTER);
 		mySut.addSutLog(aKey, aLog);
+
+		notifyObservers();
 	}
 
 	public ResultSummary getSummary()
@@ -131,6 +146,26 @@ public class TestRunResult
 	    Trace.println(Trace.GETTER);
 	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getSummary().getNrOfTCsFailed();
+	}
+
+	/**
+	 * @return
+	 */
+	public int getNrOfTCsUnknown()
+	{
+	    Trace.println(Trace.GETTER);
+	    if (myTestGroup == null) { return 0; }
+	    return myTestGroup.getSummary().getNrOfTCsUnknown();
+	}
+
+	/**
+	 * @return
+	 */
+	public int getNrOfTCsError()
+	{
+	    Trace.println(Trace.GETTER);
+	    if (myTestGroup == null) { return 0; }
+	    return myTestGroup.getSummary().getNrOfTCsError();
 	}
 
 	/**
@@ -376,5 +411,36 @@ public class TestRunResult
 	    }
 
 	    return timeString;
+	}
+
+	// Implementation of the Observer Pattern
+	
+	private void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestRunResultObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register( TestRunResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver( TestRunResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
+	}
+
+	@Override
+	public void notify(TestGroupResult aTestGroupResult)
+	{
+	    Trace.println(Trace.EXEC_UTIL);
+		notifyObservers();
 	}
 }

@@ -4,6 +4,7 @@
 package org.testtoolinterfaces.testresult;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.testtoolinterfaces.testsuite.TestCaseLink;
 import org.testtoolinterfaces.utils.Trace;
@@ -19,6 +20,8 @@ public class TestCaseResultLink extends TestResult
 	private int mySequenceNr;
 	
 	private File myLink;
+
+    private ArrayList<TestCaseResultLinkObserver> myObserverCollection;
 
 	/**
 	 * @param aTcLink
@@ -39,6 +42,7 @@ public class TestCaseResultLink extends TestResult
 		mySequenceNr = aTcLink.getSequenceNr();
 		
 		myLink = aLink;
+		myObserverCollection = new ArrayList<TestCaseResultLinkObserver>();
 		
 		this.setResult(aVerdict);
 	}
@@ -74,5 +78,29 @@ public class TestCaseResultLink extends TestResult
 	{
 	    Trace.println(Trace.GETTER);
 		return myLink;
+	}
+
+	// Implementation of the Observer Pattern
+	
+	protected void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestCaseResultLinkObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register( TestCaseResultLinkObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver( TestCaseResultLinkObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
 	}
 }

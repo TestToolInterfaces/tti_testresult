@@ -14,13 +14,15 @@ import org.testtoolinterfaces.utils.Trace;
  * @author Arjan Kranenburg
  *
  */
-public class TestCaseResult extends TestResult
+public class TestCaseResult extends TestResult implements TestStepResultObserver
 {
 	private TestCase myTestCase;
 
     private Hashtable<Integer, TestStepResult> myInitializationResults;
     private Hashtable<Integer, TestStepResult> myExecutionResults;
     private Hashtable<Integer, TestStepResult> myRestoreResults;
+    
+    private ArrayList<TestCaseResultObserver> myObserverCollection;
 
 	/**
 	 * @param aTestCase
@@ -29,12 +31,14 @@ public class TestCaseResult extends TestResult
 	{
 		super();
 
-	    Trace.println(Trace.LEVEL.CONSTRUCTOR, "TestCaseResultXmlWriter( " + aTestCase + " )" );
+	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResultXmlWriter( " + aTestCase + " )" );
 	    myTestCase = aTestCase;
 
 	    myInitializationResults = new Hashtable<Integer, TestStepResult>();
 	    myExecutionResults = new Hashtable<Integer, TestStepResult>();
 	    myRestoreResults = new Hashtable<Integer, TestStepResult>();
+
+		myObserverCollection = new ArrayList<TestCaseResultObserver>();
 	}
 
 	/**
@@ -42,8 +46,12 @@ public class TestCaseResult extends TestResult
 	 */
 	public void addInitialization(TestStepResult anInitializationResult)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		myInitializationResults.put( myInitializationResults.size(), anInitializationResult );
+
+		anInitializationResult.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
@@ -51,8 +59,12 @@ public class TestCaseResult extends TestResult
 	 */
 	public void addExecution(TestStepResult anExecutionResult)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		myExecutionResults.put( myExecutionResults.size(), anExecutionResult );
+
+		anExecutionResult.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
@@ -60,52 +72,87 @@ public class TestCaseResult extends TestResult
 	 */
 	public void addRestore(TestStepResult aRestoreResult)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 	    myRestoreResults.put( myRestoreResults.size(), aRestoreResult );
+	
+	    aRestoreResult.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
-	 * @return the myTestCaseName
+	 * @return the id of myTestCase
 	 */
 	public String getId()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestCase.getId();
 	}
 
 	public int getSequenceNr()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestCase.getSequenceNr();
 	}
 	
 	public String getDescription()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestCase.getDescription();
 	}
 	
 	public ArrayList<String> getRequirements()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myTestCase.getRequirements();
 	}
 	
 	public Hashtable<Integer, TestStepResult> getInitializationResults()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myInitializationResults;
 	}
 	
 	public Hashtable<Integer, TestStepResult> getExecutionResults()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myExecutionResults;
 	}
 	
 	public Hashtable<Integer, TestStepResult> getRestoreResults()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myRestoreResults;
+	}
+
+	// Implementation of the Observer Pattern
+	
+	protected void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestCaseResultObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register( TestCaseResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver( TestCaseResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
+	}
+
+	@Override
+	public void notify(TestStepResult aTestStepResult)
+	{
+	    Trace.println(Trace.EXEC_UTIL);
+		notifyObservers();
 	}
 }

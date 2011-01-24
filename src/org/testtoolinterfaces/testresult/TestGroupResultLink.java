@@ -4,6 +4,7 @@
 package org.testtoolinterfaces.testresult;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.testtoolinterfaces.testsuite.TestGroupLink;
 import org.testtoolinterfaces.utils.Trace;
@@ -12,7 +13,7 @@ import org.testtoolinterfaces.utils.Trace;
  * @author Arjan Kranenburg
  *
  */
-public class TestGroupResultLink extends TestResult
+public class TestGroupResultLink extends TestResult implements TestGroupResultObserver
 {
 	private String myId;
 	private String myType;
@@ -20,6 +21,8 @@ public class TestGroupResultLink extends TestResult
 	
 	private ResultSummary myResultSummary;
 	private File myLink;
+	
+	ArrayList<TestGroupResultLinkObserver> myObserverCollection;
 
 	/**
 	 * @param aTestGroupLink
@@ -40,6 +43,18 @@ public class TestGroupResultLink extends TestResult
 		
 		myResultSummary = aResultSummary;
 		myLink = aLink;
+
+		myObserverCollection = new ArrayList<TestGroupResultLinkObserver>();
+	}
+
+	/**
+	 * @param aTestGroupLink
+	 * @param aLink
+	 */
+	public TestGroupResultLink( TestGroupLink aTestGroupLink,
+								File aLink )
+	{
+		this( aTestGroupLink, new ResultSummary( 0, 0, 0, 0 ), aLink );
 	}
 
 	/**
@@ -78,6 +93,7 @@ public class TestGroupResultLink extends TestResult
 	public void setResult(VERDICT aResult)
 	{
 		// NOP
+	    // notifyObservers();
 	}
 	
 	/**
@@ -91,8 +107,44 @@ public class TestGroupResultLink extends TestResult
 		return VERDICT.UNKNOWN;
 	}
 
+	public void setSummary( ResultSummary aResultSummary )
+	{
+		myResultSummary = aResultSummary;
+	    notifyObservers();
+	}
+
 	public ResultSummary getSummary()
 	{
 		return myResultSummary;
+	}
+	
+	// Implementation of the Observer Pattern
+	
+	protected void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestGroupResultLinkObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register( TestGroupResultLinkObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver( TestGroupResultLinkObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
+	}
+
+	@Override
+	public void notify(TestGroupResult aTestGroupResult)
+	{
+		setSummary( aTestGroupResult.getSummary() );
 	}
 }

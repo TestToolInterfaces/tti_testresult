@@ -15,7 +15,9 @@ import org.testtoolinterfaces.utils.Trace;
  * @author Arjan Kranenburg
  *
  */
-public class TestGroupResult extends TestResult
+public class TestGroupResult extends TestResult implements TestGroupResultLinkObserver,
+														   TestCaseResultLinkObserver,
+														   TestStepResultObserver
 {
     private TestGroup myTestGroup;
     private ResultTiming myTiming;
@@ -24,6 +26,8 @@ public class TestGroupResult extends TestResult
     private Hashtable<Integer, TestCaseResultLink> myTestCaseResultLinks;
     private Hashtable<Integer, TestGroupResultLink> myTestGroupResultLinks;
     private Hashtable<Integer, TestStepResult> myRestoreResults;
+    
+    private ArrayList<TestGroupResultObserver> myObserverCollection;
 
     /**
 	 * @param aTestGroupName
@@ -39,6 +43,8 @@ public class TestGroupResult extends TestResult
 		myTestCaseResultLinks = new Hashtable<Integer, TestCaseResultLink>();
 		myTestGroupResultLinks = new Hashtable<Integer, TestGroupResultLink>();
 		myRestoreResults = new Hashtable<Integer, TestStepResult>();
+		
+		myObserverCollection = new ArrayList<TestGroupResultObserver>();
 	}
 
 	/**
@@ -48,6 +54,10 @@ public class TestGroupResult extends TestResult
 	{
 	    Trace.println(Trace.SETTER);
 	    myPrepareResults.put( myPrepareResults.size(), aPrepareResult );
+	    
+	    aPrepareResult.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
@@ -57,12 +67,20 @@ public class TestGroupResult extends TestResult
 	{
 	    Trace.println(Trace.SETTER);
 	    myTestCaseResultLinks.put( myTestCaseResultLinks.size(), aTestCaseResultLink );
+	    
+	    aTestCaseResultLink.register(this);
+
+	    notifyObservers();
 	}
 
 	public void addTestGroup(TestGroupResultLink aTestGroupResultLink)
 	{
 	    Trace.println(Trace.SETTER);
 	    myTestGroupResultLinks.put( myTestGroupResultLinks.size(), aTestGroupResultLink );
+
+	    aTestGroupResultLink.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
@@ -72,6 +90,10 @@ public class TestGroupResult extends TestResult
 	{
 	    Trace.println(Trace.SETTER);
 	    myRestoreResults.put( myRestoreResults.size(), aRestoreResult );
+	    
+	    aRestoreResult.register(this);
+
+	    notifyObservers();
 	}
 
 	/**
@@ -122,6 +144,8 @@ public class TestGroupResult extends TestResult
 	public void setResult(VERDICT aResult)
 	{
 		// NOP
+	    
+	    // notifyObservers();
 	}
 	
 	/**
@@ -183,5 +207,50 @@ public class TestGroupResult extends TestResult
 	    }
 
 	    return new ResultSummary( nrOfTCsPassed, nrOfTCsFailed, nrOfTCsUnknown, nrOfTCsError );
+	}
+	
+	// Implementation of the Observer Pattern
+	
+	protected void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestGroupResultObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register( TestGroupResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver( TestGroupResultObserver anObserver )
+	{
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
+	}
+
+	@Override
+	public void notify(TestGroupResultLink aTestGroupResultLink)
+	{
+	    Trace.println(Trace.EXEC_UTIL);
+		notifyObservers();
+	}
+
+	@Override
+	public void notify(TestCaseResultLink aTestCaseResultLink)
+	{
+	    Trace.println(Trace.EXEC_UTIL);
+		notifyObservers();
+	}
+
+	@Override
+	public void notify(TestStepResult aTestStepResult)
+	{
+	    Trace.println(Trace.EXEC_UTIL);
+		notifyObservers();
 	}
 }
