@@ -51,6 +51,7 @@ public abstract class TestResult
 	    if (myResult.compareTo(aResult) < 0)
 	    {
 	        myResult = aResult;
+		    notifyObservers();
 	    }
 	}
 
@@ -58,12 +59,14 @@ public abstract class TestResult
 	{
 	    Trace.println(Trace.SETTER, "addTestLog( " + aKey + ", " + aLog + " )", true);
 	    myLogs.put(aKey, aLog);
+	    notifyObservers();
 	}
 
 	public void setComment(String aComment)
 	{
 	    Trace.println(Trace.SETTER, "setComment( " + aComment + " )", true);
 	    myComment = aComment;
+	    notifyObservers();
 	}
 
 	/**
@@ -73,8 +76,8 @@ public abstract class TestResult
 	public void addComment(String aComment)
 	{
 		myComment += "\n" + aComment;
+	    notifyObservers();
 	}
-
 
 	public VERDICT getResult()
 	{
@@ -92,5 +95,12 @@ public abstract class TestResult
 	{
 	    Trace.println(Trace.GETTER);
 	    return myComment;
+	}
+	
+	/*
+	 * Can be overriden by childs if they implement the observer pattern
+	 */
+	protected void notifyObservers()
+	{
 	}
 }

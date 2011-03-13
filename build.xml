@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+ 
+<project name="TestResult" default="CreateJarFile">
+	<target name="CreateJarFile">
+
+		<delete file="../TestResult.jar"/>
+		<property name="version.num" value="0.2.0"/>
+	    <buildnumber file="build.num"/>
+
+	    <!--
+	    Loads entries from a manifest file.
+	    @jar     The jar from where to read
+	    @prefix  A prefix to prepend
+	    -->
+	    <macrodef name="loadmf">
+	        <attribute name="jar"/>
+	        <attribute name="prefix" default=""/>
+	        <sequential>
+	            <loadproperties>
+	                <!-- Load the manifest entries -->
+	                <zipentry zipfile="@{jar}" name="META-INF/MANIFEST.MF"/>
+	                <!-- Add the prefix -->
+	                <filterchain>
+	                    <prefixlines prefix="@{prefix}"/>
+	                </filterchain>
+	            </loadproperties>
+	        </sequential>
+	    </macrodef>
+
+	    <!-- Read mf entries -->
+	    <loadmf jar="lib/TestSuite.jar" prefix="testsuite-mf."/>
+
+		<jar destfile="../TestResult.jar" duplicate="preserve" index="true">
+			<fileset dir="src" />
+			<fileset dir="bin" />
+			<fileset dir=".">
+			    <include name="License_lgpl-3.0.txt"/>
+			</fileset>
+			<zipfileset src="lib/TestSuite.jar" excludes="*Tester.class" />
+			<manifest>
+		        <attribute name="Created-By" value="TestToolInterfaces.org"/>
+		        <attribute name="Built-By" value="${user.name}"/>
+		        <attribute name="Implementation-Title" value="Test Tool Interfaces - Test Result" />
+		        <attribute name="Implementation-Version" value="${version.num}.${build.number}"/> 
+		        <attribute name="Implementation-Vendor" value="Open Source - Arjan Kranenburg" />
+		        <attribute name="Specification-Title" value="Test Tool Interfaces - Test Result" />
+		        <attribute name="Specification-Version" value="0.2" />
+		        <attribute name="Specification-Vendor" value="TestToolInterfaces.org" />
+				<section name="TestSuite">
+			        <attribute name="Implementation-Title" value="${testsuite-mf.Implementation-Title}" />
+			        <attribute name="Implementation-Version" value="${testsuite-mf.Implementation-Version}"/> 
+			        <attribute name="Implementation-Vendor" value="${testsuite-mf.Implementation-Vendor}" />
+			        <attribute name="Specification-Title" value="${testsuite-mf.Specification-Title}" />
+			        <attribute name="Specification-Version" value="${testsuite-mf.Specification-Version}" />
+			        <attribute name="Specification-Vendor" value="${testsuite-mf.Specification-Vendor}" />
+				</section>
+				<section name="Utils">
+			        <attribute name="Implementation-Title" value="${utils-mf.Implementation-Title}" />
+			        <attribute name="Implementation-Version" value="${utils-mf.Implementation-Version}"/> 
+			        <attribute name="Implementation-Vendor" value="${utils-mf.Implementation-Vendor}" />
+			        <attribute name="Specification-Title" value="${utils-mf.Specification-Title}" />
+			        <attribute name="Specification-Version" value="${utils-mf.Specification-Version}" />
+			        <attribute name="Specification-Vendor" value="${utils-mf.Specification-Vendor}" />
+				</section>
+		    </manifest>
+		</jar>
+
+	</target>
+</project>
