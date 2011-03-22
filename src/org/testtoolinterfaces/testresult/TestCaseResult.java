@@ -107,7 +107,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 		return myTestCase.getRequirements();
 	}
 	
-	public Hashtable<Integer, TestStepResult> getInitializationResults()
+	public Hashtable<Integer, TestStepResult> getPrepareResults()
 	{
 	    Trace.println(Trace.GETTER);
 		return myInitializationResults;
