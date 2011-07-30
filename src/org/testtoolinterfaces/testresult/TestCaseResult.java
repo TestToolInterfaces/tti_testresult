@@ -61,6 +61,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	{
 	    Trace.println(Trace.SETTER);
 		myExecutionResults.put( myExecutionResults.size(), anExecutionResult );
+		setResult(anExecutionResult.getResult());
 
 		anExecutionResult.register(this);
 

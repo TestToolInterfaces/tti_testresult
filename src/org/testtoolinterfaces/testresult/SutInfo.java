@@ -18,7 +18,7 @@ public class SutInfo
 	 */
 	public SutInfo( String aProduct )
 	{
-	    Trace.println(Trace.LEVEL.CONSTRUCTOR);
+	    Trace.println(Trace.CONSTRUCTOR);
 		myName = aProduct;
 		myLogs = new Hashtable<String, String>();
 	}
@@ -30,7 +30,7 @@ public class SutInfo
 							String aVersionSubLevel,
 							String aVersionPatchLevel )
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		myVersionMainLevel = aVersionMainLevel;
 		myVersionSubLevel = aVersionSubLevel;
 		myVersionPatchLevel = aVersionPatchLevel;
@@ -41,7 +41,7 @@ public class SutInfo
 	 */
 	public void setDescription( String aDescription )
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		myDescription = aDescription;
 	}
 
@@ -51,7 +51,7 @@ public class SutInfo
 	 */
 	public void addSutLog(String aKey, String aLog)
 	{
-	    Trace.println(Trace.LEVEL.SETTER);
+	    Trace.println(Trace.SETTER);
 		myLogs.put(aKey, aLog);
 	}
 
@@ -60,7 +60,7 @@ public class SutInfo
 	 */
 	public String getDescription()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myDescription;
 	}
 
@@ -69,7 +69,7 @@ public class SutInfo
 	 */
 	public Hashtable<String, String> getLogs()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myLogs;
 	}
 
@@ -78,7 +78,7 @@ public class SutInfo
 	 */
 	public String getName()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myName;
 	}
 
@@ -87,7 +87,7 @@ public class SutInfo
 	 */
 	public String getVersionMainLevel()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myVersionMainLevel;
 	}
 
@@ -96,7 +96,7 @@ public class SutInfo
 	 */
 	public String getVersionSubLevel()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myVersionSubLevel;
 	}
 
@@ -105,7 +105,7 @@ public class SutInfo
 	 */
 	public String getVersionPatchLevel()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myVersionPatchLevel;
 	}
 }

@@ -52,7 +52,7 @@ public class TestCaseResultLink extends TestResult
 	 */
 	public String getId()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return myId;
 	}
 
@@ -67,7 +67,7 @@ public class TestCaseResultLink extends TestResult
 
 	public int getSequenceNr()
 	{
-	    Trace.println(Trace.LEVEL.GETTER);
+	    Trace.println(Trace.GETTER);
 		return mySequenceNr;
 	}
 
