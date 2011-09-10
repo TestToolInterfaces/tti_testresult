@@ -4,6 +4,7 @@
 package org.testtoolinterfaces.testresult;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStepSimple;
@@ -22,6 +23,7 @@ public class TestStepResult extends TestResult
 	private TestStepSimple myTestStep;
 
     private ArrayList<TestStepResultObserver> myObserverCollection;
+    private Hashtable<Integer, TestStepResult> mySubStepResults;
 
     /**
 	 * @param aTestCaseName
@@ -34,6 +36,7 @@ public class TestStepResult extends TestResult
 		myTestStep = aTestStep;
 
 		myObserverCollection = new ArrayList<TestStepResultObserver>();
+	    mySubStepResults = new Hashtable<Integer, TestStepResult>();
 	}
 
 	public StepType getType()
@@ -86,6 +89,20 @@ public class TestStepResult extends TestResult
 		return myTestStep.getParameters();
 	}
 
+	public void addSubStep( TestStepResult aSubStepResult )
+	{
+	    Trace.println(Trace.SETTER);
+	    mySubStepResults.put(aSubStepResult.getSequenceNr(), aSubStepResult);
+	    
+	    this.setResult( aSubStepResult.getResult() );
+	}
+
+	public Hashtable<Integer, TestStepResult> getSubSteps()
+	{
+	    Trace.println(Trace.GETTER);
+		return mySubStepResults;
+	}
+	
 	// Implementation of the Observer Pattern
 	
 	protected void notifyObservers()
