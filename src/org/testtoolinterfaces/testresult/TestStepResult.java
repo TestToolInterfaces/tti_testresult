@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
-import org.testtoolinterfaces.testsuite.TestStepSimple;
+import org.testtoolinterfaces.testsuite.TestStep;
 import org.testtoolinterfaces.testsuite.TestStepCommand;
 import org.testtoolinterfaces.testsuite.TestStepScript;
-import org.testtoolinterfaces.testsuite.TestStep.StepType;
 
 import org.testtoolinterfaces.utils.Trace;
 
@@ -20,7 +19,7 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestStepResult extends TestResult
 {
-	private TestStepSimple myTestStep;
+	private TestStep myTestStep;
 
     private ArrayList<TestStepResultObserver> myObserverCollection;
     private Hashtable<Integer, TestStepResult> mySubStepResults;
@@ -28,7 +27,7 @@ public class TestStepResult extends TestResult
     /**
 	 * @param aTestCaseName
 	 */
-	public TestStepResult(TestStepSimple aTestStep)
+	public TestStepResult(TestStep aTestStep)
 	{
 		super();
 
@@ -39,12 +38,6 @@ public class TestStepResult extends TestResult
 	    mySubStepResults = new Hashtable<Integer, TestStepResult>();
 	}
 
-	public StepType getType()
-	{
-	    Trace.println(Trace.GETTER);
-		return myTestStep.getStepType();
-	}
-	
 	public int getSequenceNr()
 	{
 	    Trace.println(Trace.GETTER);

@@ -38,7 +38,7 @@ public class TestCaseResultLink extends TestResult
 	                  											 + aLink + " )" );
 
 	    myId = aTcLink.getId();
-		myType = aTcLink.getScriptType();
+		myType = aTcLink.getLinkType();
 		mySequenceNr = aTcLink.getSequenceNr();
 		
 		myLink = aLink;

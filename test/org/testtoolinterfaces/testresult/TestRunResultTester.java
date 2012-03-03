@@ -12,9 +12,10 @@ import org.junit.Before;
 import org.testtoolinterfaces.testresult.TestResult.VERDICT;
 import org.testtoolinterfaces.testresult.TestRunResult.TEST_RUN_STATUS;
 import org.testtoolinterfaces.testsuite.TestCaseLink;
-import org.testtoolinterfaces.testsuite.TestEntryArrayList;
+import org.testtoolinterfaces.testsuite.TestEntrySequence;
 import org.testtoolinterfaces.testsuite.TestGroupImpl;
-import org.testtoolinterfaces.testsuite.TestStepArrayList;
+import org.testtoolinterfaces.testsuite.TestLinkImpl;
+import org.testtoolinterfaces.testsuite.TestStepSequence;
 
 public class TestRunResultTester extends TestCase implements TestRunResultObserver
 {
@@ -69,12 +70,13 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		Assert.assertEquals("Incorrect Number of Failed TestCases", 0, testRunResult.getNrOfTCsFailed());
 
 		TestGroupImpl testGroup = new TestGroupImpl( "ID",
-		                                             new Hashtable<String, String>(),
 		                                             "A Description",
+		                                             0,
 		                                             new ArrayList<String>(),
-		                                             new TestStepArrayList(),
-		                                             new TestEntryArrayList(),
-		                                             new TestStepArrayList(),
+		                                             new TestStepSequence(),
+		                                             new TestEntrySequence(),
+		                                             new TestStepSequence(),
+		                                             new Hashtable<String, String>(),
 		                                             new Hashtable<String, String>() );
 		TestGroupResult testGroupResult = new TestGroupResult(testGroup);
 		testRunResult.setTestGroup(testGroupResult);
@@ -146,21 +148,22 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		Assert.assertEquals("Incorrect Number of Failed TestCases", 0, testRunResult.getNrOfTCsFailed());
 
 		TestGroupImpl testGroup = new TestGroupImpl( "ID",
-		                                             new Hashtable<String, String>(),
 		                                             "A Description",
+		                                             1,
 		                                             new ArrayList<String>(),
-		                                             new TestStepArrayList(),
-		                                             new TestEntryArrayList(),
-		                                             new TestStepArrayList(),
+		                                             new TestStepSequence(),
+		                                             new TestEntrySequence(),
+		                                             new TestStepSequence(),
+		                                             new Hashtable<String, String>(),
 		                                             new Hashtable<String, String>() );
 		TestGroupResult testGroupResult = new TestGroupResult(testGroup);
 		testRunResult.setTestGroup(testGroupResult);
 		Assert.assertEquals("Incorrect Number of Notifies", 1, notifyCounter);
 
 		TestCaseLink testCaseLink = new TestCaseLink( "tcId",
-		                                              "shell",
 		                                              0,
-		                                              new File( "Dummy" ),
+		                                              new TestLinkImpl( "Dummy", "shell" ),
+		                                              new Hashtable<String, String>(),
 		                                              new Hashtable<String, String>() );
 		
 		TestCaseResultLink tcResultLink = new TestCaseResultLink( testCaseLink,

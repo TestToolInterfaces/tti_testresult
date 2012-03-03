@@ -38,7 +38,7 @@ public class TestGroupResultLink extends TestResult implements TestGroupResultOb
 	                  											 + aLink + " )" );
 
 	    myId = aTestGroupLink.getId();
-		myType = aTestGroupLink.getGroupType();
+		myType = aTestGroupLink.getLinkType();
 		mySequence = aTestGroupLink.getSequenceNr();
 		
 		myResultSummary = aResultSummary;
