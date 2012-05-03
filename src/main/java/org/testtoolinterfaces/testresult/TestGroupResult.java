@@ -233,21 +233,18 @@ public class TestGroupResult extends TestResult implements TestGroupResultLinkOb
 	    myObserverCollection.remove( anObserver );
 	}
 
-	@Override
 	public void notify(TestGroupResultLink aTestGroupResultLink)
 	{
 	    Trace.println(Trace.EXEC_UTIL);
 		notifyObservers();
 	}
 
-	@Override
 	public void notify(TestCaseResultLink aTestCaseResultLink)
 	{
 	    Trace.println(Trace.EXEC_UTIL);
 		notifyObservers();
 	}
 
-	@Override
 	public void notify(TestStepResult aTestStepResult)
 	{
 	    Trace.println(Trace.EXEC_UTIL);

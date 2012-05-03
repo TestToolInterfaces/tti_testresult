@@ -150,7 +150,6 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	    myObserverCollection.remove( anObserver );
 	}
 
-	@Override
 	public void notify(TestStepResult aTestStepResult)
 	{
 	    Trace.println(Trace.EXEC_UTIL);

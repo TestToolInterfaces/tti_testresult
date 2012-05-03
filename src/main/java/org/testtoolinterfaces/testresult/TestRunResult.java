@@ -437,7 +437,6 @@ public class TestRunResult implements TestGroupResultObserver
 	    myObserverCollection.remove( anObserver );
 	}
 
-	@Override
 	public void notify(TestGroupResult aTestGroupResult)
 	{
 	    Trace.println(Trace.EXEC_UTIL);

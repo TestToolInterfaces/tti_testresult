@@ -142,7 +142,6 @@ public class TestGroupResultLink extends TestResult implements TestGroupResultOb
 	    myObserverCollection.remove( anObserver );
 	}
 
-	@Override
 	public void notify(TestGroupResult aTestGroupResult)
 	{
 		setSummary( aTestGroupResult.getSummary() );

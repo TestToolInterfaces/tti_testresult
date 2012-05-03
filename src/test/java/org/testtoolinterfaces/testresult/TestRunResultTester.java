@@ -205,7 +205,6 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		Assert.assertEquals("Incorrect Number of Notifies", 1, notifyCounter);
 	}
 
-	@Override
 	public void notify(TestRunResult aTestRunResult)
 	{
 		notifyCounter++;		
