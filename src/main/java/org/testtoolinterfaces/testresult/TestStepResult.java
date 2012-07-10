@@ -49,6 +49,12 @@ public class TestStepResult extends TestResult
 	    Trace.println(Trace.GETTER);
 		return myTestStep.getDescription();
 	}
+
+	public void setDisplayName( String aDisplayName )
+	{
+	    Trace.println(Trace.SETTER);
+		myTestStep.setDisplayName(aDisplayName);
+	}
 	
 	public String getDisplayName()
 	{
@@ -74,6 +80,17 @@ public class TestStepResult extends TestResult
 			return ((TestStepScript) myTestStep).getScript();	    	
 	    }
 	    return "";
+	}
+
+	@Override
+	public void setExecutionPath(String anExecutionPath)
+	{
+		super.setExecutionPath(anExecutionPath);
+		
+	    for (TestStepResult result : mySubStepResults.values())
+	    {
+	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+	    }
 	}
 
 	public ParameterArrayList getParameters()
@@ -118,5 +135,20 @@ public class TestStepResult extends TestResult
 	{
 	    Trace.println(Trace.SETTER);
 	    myObserverCollection.remove( anObserver );
+	}
+
+	@Override
+	public String getId()
+	{
+		if ( myTestStep instanceof TestStepCommand )
+		{
+			return ((TestStepCommand) myTestStep).getCommand() + "_" + myTestStep.getSequenceNr();
+		} //else
+		if ( myTestStep instanceof TestStepScript )
+		{
+			return ((TestStepScript) myTestStep).getScript() + "_" + myTestStep.getSequenceNr();
+		} //else
+
+		return myTestStep.getType().toString() + "_" + myTestStep.getSequenceNr();
 	}
 }

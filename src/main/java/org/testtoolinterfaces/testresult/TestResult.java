@@ -28,6 +28,12 @@ public abstract class TestResult
 	private String myComment = "";
 //    private Calendar myStartDate;
 //    private Calendar myEndDate;
+	private String myExecutionPath = "";
+	
+	/**
+	 * @return the id. It must be unique within a certain scope, e.g. within a file.
+	 */
+	abstract public String getId();
 	
 	public TestResult()
 	{
@@ -97,6 +103,20 @@ public abstract class TestResult
 	    return myComment;
 	}
 	
+	/**
+	 * @return the myExecutionPath
+	 */
+	public String getExecutionPath() {
+		return myExecutionPath;
+	}
+
+	/**
+	 * @param anExecutionPath the executionPath to set
+	 */
+	public void setExecutionPath(String anExecutionPath) {
+		this.myExecutionPath = anExecutionPath;
+	}
+
 	/*
 	 * Can be overriden by childs if they implement the observer pattern
 	 */

@@ -96,6 +96,22 @@ public class TestGroupResult extends TestResult implements TestGroupResultLinkOb
 	    notifyObservers();
 	}
 
+	@Override
+	public void setExecutionPath(String anExecutionPath)
+	{
+		super.setExecutionPath(anExecutionPath);
+		
+	    for (TestStepResult result : myPrepareResults.values())
+	    {
+	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+	    }
+
+	    for (TestStepResult result : myRestoreResults.values())
+	    {
+	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+	    }
+	}
+
 	/**
 	 * @return the Test Group ID
 	 */

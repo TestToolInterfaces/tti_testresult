@@ -18,7 +18,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 {
 	private TestCase myTestCase;
 
-    private Hashtable<Integer, TestStepResult> myInitializationResults;
+    private Hashtable<Integer, TestStepResult> myPrepareResults;
     private Hashtable<Integer, TestStepResult> myExecutionResults;
     private Hashtable<Integer, TestStepResult> myRestoreResults;
     
@@ -34,7 +34,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResultXmlWriter( " + aTestCase + " )" );
 	    myTestCase = aTestCase;
 
-	    myInitializationResults = new Hashtable<Integer, TestStepResult>();
+	    myPrepareResults = new Hashtable<Integer, TestStepResult>();
 	    myExecutionResults = new Hashtable<Integer, TestStepResult>();
 	    myRestoreResults = new Hashtable<Integer, TestStepResult>();
 
@@ -47,7 +47,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	public void addInitialization(TestStepResult anInitializationResult)
 	{
 	    Trace.println(Trace.SETTER);
-		myInitializationResults.put( myInitializationResults.size(), anInitializationResult );
+		myPrepareResults.put( myPrepareResults.size(), anInitializationResult );
 
 		anInitializationResult.register(this);
 
@@ -81,6 +81,28 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	    notifyObservers();
 	}
 
+	@Override
+	public void setExecutionPath(String anExecutionPath)
+	{
+		super.setExecutionPath(anExecutionPath);
+		
+	    for (TestStepResult result : myPrepareResults.values())
+	    {
+	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+	    }
+
+	    for (TestStepResult result : myExecutionResults.values())
+	    {
+	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+	    }
+
+	    for (TestStepResult result : myRestoreResults.values())
+	    {
+	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+	    }
+	}
+
+
 	/**
 	 * @return the id of myTestCase
 	 */
@@ -111,7 +133,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	public Hashtable<Integer, TestStepResult> getPrepareResults()
 	{
 	    Trace.println(Trace.GETTER);
-		return myInitializationResults;
+		return myPrepareResults;
 	}
 	
 	public Hashtable<Integer, TestStepResult> getExecutionResults()
