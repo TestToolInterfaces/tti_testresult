@@ -4,7 +4,9 @@
 package org.testtoolinterfaces.testresult;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+//import java.util.Hashtable;
+import java.util.Iterator;
+//import java.util.Map;
 
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
@@ -22,7 +24,7 @@ public class TestStepResult extends TestResult
 	private TestStep myTestStep;
 
     private ArrayList<TestStepResultObserver> myObserverCollection;
-    private Hashtable<Integer, TestStepResult> mySubStepResults;
+    private ArrayList<TestStepResult> mySubStepResults;
 
     /**
 	 * @param aTestCaseName
@@ -35,7 +37,7 @@ public class TestStepResult extends TestResult
 		myTestStep = aTestStep;
 
 		myObserverCollection = new ArrayList<TestStepResultObserver>();
-	    mySubStepResults = new Hashtable<Integer, TestStepResult>();
+	    mySubStepResults = new ArrayList<TestStepResult>();
 	}
 
 	public int getSequenceNr()
@@ -86,11 +88,12 @@ public class TestStepResult extends TestResult
 	public void setExecutionPath(String anExecutionPath)
 	{
 		super.setExecutionPath(anExecutionPath);
-		
-	    for (TestStepResult result : mySubStepResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
+
+		Iterator<TestStepResult> subStepItr = mySubStepResults.iterator();
+		while (subStepItr.hasNext())
+		{
+			subStepItr.next().setExecutionPath(anExecutionPath + "." + this.getId());
+		}
 	}
 
 	public ParameterArrayList getParameters()
@@ -102,19 +105,18 @@ public class TestStepResult extends TestResult
 	public void addSubStep( TestStepResult aSubStepResult )
 	{
 	    Trace.println(Trace.SETTER);
-	    mySubStepResults.put(aSubStepResult.getSequenceNr(), aSubStepResult);
+	    mySubStepResults.add(aSubStepResult);
 	    
 	    this.setResult( aSubStepResult.getResult() );
 	}
 
-	public Hashtable<Integer, TestStepResult> getSubSteps()
+	public ArrayList<TestStepResult> getSubSteps()
 	{
 	    Trace.println(Trace.GETTER);
 		return mySubStepResults;
 	}
 	
 	// Implementation of the Observer Pattern
-	
 	protected void notifyObservers()
 	{
 	    Trace.println(Trace.EXEC_PLUS);
