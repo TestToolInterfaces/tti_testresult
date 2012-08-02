@@ -26,7 +26,9 @@ public class TestStepResult extends TestResult
     private ArrayList<TestStepResultObserver> myObserverCollection;
     private ArrayList<TestStepResult> mySubStepResults;
 
-    /**
+    private ArrayList<ParameterResult> myParameterResults;
+
+	/**
 	 * @param aTestCaseName
 	 */
 	public TestStepResult(TestStep aTestStep)
@@ -116,6 +118,16 @@ public class TestStepResult extends TestResult
 		return mySubStepResults;
 	}
 	
+    public ArrayList<ParameterResult> getParameterResults()
+    {
+		return myParameterResults;
+	}
+
+	public void setParameterResults(ArrayList<ParameterResult> aParameterResults)
+	{
+		myParameterResults = aParameterResults;
+	}
+
 	// Implementation of the Observer Pattern
 	protected void notifyObservers()
 	{
