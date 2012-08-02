@@ -31,7 +31,7 @@ public class TestCaseResult extends TestResult implements TestStepResultObserver
 	{
 		super();
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResultXmlWriter( " + aTestCase + " )" );
+	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResult( " + aTestCase + " )" );
 	    myTestCase = aTestCase;
 
 	    myPrepareResults = new Hashtable<Integer, TestStepResult>();
