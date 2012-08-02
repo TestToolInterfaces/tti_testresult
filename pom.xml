@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.testtoolinterfaces</groupId>
   <artifactId>testresult</artifactId>
-  <version>0.3.4-SNAPSHOT</version>
+  <version>0.3.4</version>
   <name>Test Tool Interfaces - Test Result</name>
   <description>Test Result classes for Test Tool Interfaces</description>
   <url>http://www.testtoolinterfaces.org/</url>
@@ -46,7 +46,7 @@
   	<dependency>
       <groupId>org.testtoolinterfaces</groupId>
   	  <artifactId>utils</artifactId>
-  	  <version>0.1.3</version>
+  	  <version>0.1.6</version>
   	</dependency>
   	<dependency>
   	  <groupId>org.testtoolinterfaces</groupId>
