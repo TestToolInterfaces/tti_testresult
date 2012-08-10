@@ -20,6 +20,7 @@ public class TestCaseResultLink extends TestResult
 	private int mySequenceNr;
 	
 	private File myLink;
+	private TestCaseResult myLoadedTcResult;
 
     private ArrayList<TestCaseResultLinkObserver> myObserverCollection;
 
@@ -42,6 +43,7 @@ public class TestCaseResultLink extends TestResult
 		mySequenceNr = aTcLink.getSequenceNr();
 		
 		myLink = aLink;
+		myLoadedTcResult = null;
 		myObserverCollection = new ArrayList<TestCaseResultLinkObserver>();
 		
 		this.setResult(aVerdict);
@@ -78,6 +80,27 @@ public class TestCaseResultLink extends TestResult
 	{
 	    Trace.println(Trace.GETTER);
 		return myLink;
+	}
+
+	/**
+	 * If the link was used before to read the TestCase Result and it was stored with {@link #setTcResult(TestCaseResult)},
+	 * you can get it here so you don't have to read it again.
+	 * 
+	 * @return The TestCaseResult, null if it was not read before.
+	 */
+	public TestCaseResult getTcResult()
+	{
+		return myLoadedTcResult;
+	}
+
+	/**
+	 * Sets the TC result object. If the link was followed and read, store the result here to
+	 * prevent re-reading it in the future.
+	 * @param myLoadedTcResult
+	 */
+	public void setTcResult(TestCaseResult myLoadedTcResult)
+	{
+		this.myLoadedTcResult = myLoadedTcResult;
 	}
 
 	// Implementation of the Observer Pattern
