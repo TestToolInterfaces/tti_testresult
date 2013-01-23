@@ -73,7 +73,7 @@ public class TestStepSelectionResult extends TestStepResult
 			} //else
 		} //else
 		
-		return VERDICT.PASSED;
+		return super.getResult();
 	}
 
 
