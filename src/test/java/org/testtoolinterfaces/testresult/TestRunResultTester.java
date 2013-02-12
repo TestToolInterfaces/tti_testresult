@@ -3,7 +3,6 @@ package org.testtoolinterfaces.testresult;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Hashtable;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -12,7 +11,7 @@ import org.junit.Before;
 import org.testtoolinterfaces.testresult.TestResult.VERDICT;
 import org.testtoolinterfaces.testresult.TestRunResult.TEST_RUN_STATUS;
 import org.testtoolinterfaces.testsuite.TestCaseLink;
-import org.testtoolinterfaces.testsuite.TestEntrySequence;
+import org.testtoolinterfaces.testsuite.TestGroupEntrySequence;
 import org.testtoolinterfaces.testsuite.TestGroupImpl;
 import org.testtoolinterfaces.testsuite.TestLinkImpl;
 import org.testtoolinterfaces.testsuite.TestStepSequence;
@@ -74,10 +73,8 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		                                             0,
 		                                             new ArrayList<String>(),
 		                                             new TestStepSequence(),
-		                                             new TestEntrySequence(),
-		                                             new TestStepSequence(),
-		                                             new Hashtable<String, String>(),
-		                                             new Hashtable<String, String>() );
+		                                             new TestGroupEntrySequence(),
+		                                             new TestStepSequence() );
 		TestGroupResult testGroupResult = new TestGroupResult(testGroup);
 		testRunResult.setTestGroup(testGroupResult);
 
@@ -152,19 +149,15 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		                                             1,
 		                                             new ArrayList<String>(),
 		                                             new TestStepSequence(),
-		                                             new TestEntrySequence(),
-		                                             new TestStepSequence(),
-		                                             new Hashtable<String, String>(),
-		                                             new Hashtable<String, String>() );
+		                                             new TestGroupEntrySequence(),
+		                                             new TestStepSequence() );
 		TestGroupResult testGroupResult = new TestGroupResult(testGroup);
 		testRunResult.setTestGroup(testGroupResult);
 		Assert.assertEquals("Incorrect Number of Notifies", 1, notifyCounter);
 
 		TestCaseLink testCaseLink = new TestCaseLink( "tcId",
 		                                              0,
-		                                              new TestLinkImpl( "Dummy", "shell" ),
-		                                              new Hashtable<String, String>(),
-		                                              new Hashtable<String, String>() );
+		                                              new TestLinkImpl( "Dummy", "shell" ) );
 		
 		TestCaseResultLink tcResultLink = new TestCaseResultLink( testCaseLink,
 		                                                          VERDICT.PASSED,
