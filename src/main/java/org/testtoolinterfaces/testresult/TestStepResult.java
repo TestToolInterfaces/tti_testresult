@@ -163,6 +163,6 @@ public class TestStepResult extends TestResult
 			return ((TestStepScript) myTestStep).getScript() + "_" + myTestStep.getSequenceNr();
 		} //else
 
-		return myTestStep.getType().toString() + "_" + myTestStep.getSequenceNr();
+		return myTestStep.getDisplayName() + "_" + myTestStep.getSequenceNr();
 	}
 }
