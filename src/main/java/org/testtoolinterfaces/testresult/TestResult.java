@@ -102,8 +102,20 @@ public abstract class TestResult
 	    Trace.println(Trace.GETTER);
 	    return myComment;
 	}
-	
+
 	/**
+	 * Returns the full execution path of id's each seperated by a '.'.
+	 * The id of this result is included and added last. 
+	 */
+	public String getExecutionIdPath() {
+		return this.getExecutionPath() + "." + this.getId();
+	}
+
+	/**
+	 * Simple getter for the executionPath. This is the execution path up-to this TestResult,
+	 * so in effect this is the executionPath of the parent.
+	 * @see getExecutionIdPath()
+	 * 
 	 * @return the myExecutionPath
 	 */
 	public String getExecutionPath() {
