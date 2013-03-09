@@ -3,178 +3,41 @@
  */
 package org.testtoolinterfaces.testresult;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
-
-import org.testtoolinterfaces.testsuite.TestCase;
-
-import org.testtoolinterfaces.utils.Trace;
 
 /**
  * @author Arjan Kranenburg
- *
+ * 
  */
-public class TestCaseResult extends TestResult implements TestStepResultObserver
-{
-	private TestCase myTestCase;
-
-    private Hashtable<Integer, TestStepResult> myPrepareResults;
-    private Hashtable<Integer, TestStepResult> myExecutionResults;
-    private Hashtable<Integer, TestStepResult> myRestoreResults;
-    
-    private ArrayList<TestCaseResultObserver> myObserverCollection;
+public interface TestCaseResult extends TestExecItemResult {
 
 	/**
-	 * @param aTestCase
+	 * Sets the result, but only if the new verdict is higher in order.
+	 * The order is UNKOWN, PASSED, ERROR, FAILED
+	 * E.g. 1) When current value is UNKNOWN, calling setResult( "ERROR" ) will actually
+	 *         change the verdict to ERROR. 
+	 *      2) When current value is FAILED, calling setResult( "PASSED" ) will leave the
+	 *         verdict on FAILED.
+	 * 
+	 * @param aResult
 	 */
-	public TestCaseResult(TestCase aTestCase)
-	{
-		super();
+	public void setResult(VERDICT aResult);
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResult( " + aTestCase + " )" );
-	    myTestCase = aTestCase;
-
-	    myPrepareResults = new Hashtable<Integer, TestStepResult>();
-	    myExecutionResults = new Hashtable<Integer, TestStepResult>();
-	    myRestoreResults = new Hashtable<Integer, TestStepResult>();
-
-		myObserverCollection = new ArrayList<TestCaseResultObserver>();
-	}
+	public VERDICT getResult();
 
 	/**
-	 * @param anInitializationResult
+	 * @param anExecutionResult
 	 */
-	public void addInitialization(TestStepResult anInitializationResult)
-	{
-	    Trace.println(Trace.SETTER);
-		myPrepareResults.put( myPrepareResults.size(), anInitializationResult );
+	public void addExecution(TestStepResult anExecutionResult);
 
-		anInitializationResult.register(this);
+	public void setExecutionPath(String anExecutionPath);
 
-	    notifyObservers();
-	}
-
-	/**
-	 * @param anInitializationResult
-	 */
-	public void addExecution(TestStepResult anExecutionResult)
-	{
-	    Trace.println(Trace.SETTER);
-		myExecutionResults.put( myExecutionResults.size(), anExecutionResult );
-		setResult(anExecutionResult.getResult());
-
-		anExecutionResult.register(this);
-
-	    notifyObservers();
-	}
-
-	/**
-	 * @param anInitializationResult
-	 */
-	public void addRestore(TestStepResult aRestoreResult)
-	{
-	    Trace.println(Trace.SETTER);
-	    myRestoreResults.put( myRestoreResults.size(), aRestoreResult );
-	
-	    aRestoreResult.register(this);
-
-	    notifyObservers();
-	}
-
-	@Override
-	public void setExecutionPath(String anExecutionPath)
-	{
-		super.setExecutionPath(anExecutionPath);
-		
-	    for (TestStepResult result : myPrepareResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
-
-	    for (TestStepResult result : myExecutionResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
-
-	    for (TestStepResult result : myRestoreResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
-	}
-
-
-	/**
-	 * @return the id of myTestCase
-	 */
-	public String getId()
-	{
-	    Trace.println(Trace.GETTER);
-		return myTestCase.getId();
-	}
-
-	public int getSequenceNr()
-	{
-	    Trace.println(Trace.GETTER);
-		return myTestCase.getSequenceNr();
-	}
-	
-	public String getDescription()
-	{
-	    Trace.println(Trace.GETTER);
-		return myTestCase.getDescription();
-	}
-	
-	public ArrayList<String> getRequirements()
-	{
-	    Trace.println(Trace.GETTER);
-		return myTestCase.getRequirements();
-	}
-	
-	public Hashtable<Integer, TestStepResult> getPrepareResults()
-	{
-	    Trace.println(Trace.GETTER);
-		return myPrepareResults;
-	}
-	
-	public Hashtable<Integer, TestStepResult> getExecutionResults()
-	{
-	    Trace.println(Trace.GETTER);
-		return myExecutionResults;
-	}
-	
-	public Hashtable<Integer, TestStepResult> getRestoreResults()
-	{
-	    Trace.println(Trace.GETTER);
-		return myRestoreResults;
-	}
+	public Hashtable<Integer, TestStepResult> getExecutionResults();
 
 	// Implementation of the Observer Pattern
-	
-	protected void notifyObservers()
-	{
-	    Trace.println(Trace.EXEC_PLUS);
+	public void register(TestCaseResultObserver anObserver);
 
-	    for (TestCaseResultObserver observer : myObserverCollection)
-	    {
-	    	observer.notify(this);
-	    }
-	}
-	
-	public void register( TestCaseResultObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.add(anObserver);
-	}
+	public void unRegisterObserver(TestCaseResultObserver anObserver);
 
-	public void unRegisterObserver( TestCaseResultObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.remove( anObserver );
-	}
-
-	public void notify(TestStepResult aTestStepResult)
-	{
-	    Trace.println(Trace.EXEC_UTIL);
-		notifyObservers();
-	}
+	public void notify(TestStepResult aTestStepResult);
 }

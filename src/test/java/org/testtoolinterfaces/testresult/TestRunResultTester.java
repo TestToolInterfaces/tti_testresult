@@ -10,6 +10,8 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.testtoolinterfaces.testresult.TestResult.VERDICT;
 import org.testtoolinterfaces.testresult.TestRunResult.TEST_RUN_STATUS;
+import org.testtoolinterfaces.testresult.impl.TestCaseResultLinkImpl;
+import org.testtoolinterfaces.testresult.impl.TestGroupResultImpl;
 import org.testtoolinterfaces.testsuite.TestCaseLink;
 import org.testtoolinterfaces.testsuite.TestGroupEntrySequence;
 import org.testtoolinterfaces.testsuite.TestGroupImpl;
@@ -75,7 +77,7 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		                                             new TestStepSequence(),
 		                                             new TestGroupEntrySequence(),
 		                                             new TestStepSequence() );
-		TestGroupResult testGroupResult = new TestGroupResult(testGroup);
+		TestGroupResult testGroupResult = new TestGroupResultImpl(testGroup);
 		testRunResult.setTestGroup(testGroupResult);
 
 		Assert.assertEquals("Incorrect Number of Notifies", 1, notifyCounter);
@@ -151,7 +153,7 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		                                             new TestStepSequence(),
 		                                             new TestGroupEntrySequence(),
 		                                             new TestStepSequence() );
-		TestGroupResult testGroupResult = new TestGroupResult(testGroup);
+		TestGroupResult testGroupResult = new TestGroupResultImpl(testGroup);
 		testRunResult.setTestGroup(testGroupResult);
 		Assert.assertEquals("Incorrect Number of Notifies", 1, notifyCounter);
 
@@ -159,7 +161,7 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		                                              0,
 		                                              new TestLinkImpl( "Dummy", "shell" ) );
 		
-		TestCaseResultLink tcResultLink = new TestCaseResultLink( testCaseLink,
+		TestCaseResultLink tcResultLink = new TestCaseResultLinkImpl( testCaseLink,
 		                                                          VERDICT.PASSED,
 		                                                          new File( "DummyResult" ) );
 		testGroupResult.addTestCase(tcResultLink);
