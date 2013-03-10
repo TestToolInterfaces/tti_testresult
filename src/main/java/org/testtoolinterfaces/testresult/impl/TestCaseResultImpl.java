@@ -128,10 +128,4 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	    Trace.println(Trace.SETTER);
 	    myObserverCollection.remove( anObserver );
 	}
-
-	public void notify(TestStepResult aTestStepResult)
-	{
-	    Trace.println(Trace.EXEC_UTIL);
-		notifyObservers();
-	}
 }

@@ -2,5 +2,5 @@ package org.testtoolinterfaces.testresult;
 
 public interface TestStepResultObserver
 {
-	public void notify( TestStepResult aTestStepResult );
+	public void notify( TestStepResultBase aTestStepResult );
 }

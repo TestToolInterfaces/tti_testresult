@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import org.testtoolinterfaces.testresult.ParameterResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
-import org.testtoolinterfaces.testresult.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
 import org.testtoolinterfaces.testsuite.TestStepCommand;
@@ -20,13 +19,11 @@ import org.testtoolinterfaces.utils.Trace;
  * @author arjan.kranenburg
  *
  */
-public abstract class TestStepResultImpl extends TestResultImpl implements TestStepResult
+public abstract class TestStepResultImpl extends TestStepResultBaseImpl implements TestStepResult
 {
 	private VERDICT myResult = VERDICT.UNKNOWN;
 
-    private ArrayList<TestStepResultObserver> myObserverCollection;
-    private ArrayList<TestStepResult> mySubStepResults;
-
+	private ArrayList<TestStepResult> mySubStepResults;
     private ArrayList<ParameterResult> myParameterResults;
 
 	/**
@@ -38,14 +35,7 @@ public abstract class TestStepResultImpl extends TestResultImpl implements TestS
 
 	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
 
-		myObserverCollection = new ArrayList<TestStepResultObserver>();
 	    mySubStepResults = new ArrayList<TestStepResult>();
-	}
-
-	public VERDICT getResult()
-	{
-	    Trace.println(Trace.GETTER);
-	    return myResult;
 	}
 
 	/**
@@ -68,25 +58,11 @@ public abstract class TestStepResultImpl extends TestResultImpl implements TestS
 	    }
 	}
 
-	
-	public void setDisplayName( String aDisplayName )
-	{
-	    Trace.println(Trace.SETTER);
-		((TestStep) this.getTestEntry()).setDisplayName(aDisplayName);
-	}
-	
-	public String getDisplayName()
+
+	public VERDICT getResult()
 	{
 	    Trace.println(Trace.GETTER);
-		return ((TestStep) this.getTestEntry()).getDisplayName();
-	}
-	
-	/**
-	 * Returns the full execution path of id's each seperated by a '.'.
-	 * The id of this result is included and added last. 
-	 */
-	public String getExecutionIdPath() {
-		return this.getExecutionPath() + "." + this.getDisplayName();
+	    return myResult;
 	}
 
 	@Override
@@ -131,29 +107,6 @@ public abstract class TestStepResultImpl extends TestResultImpl implements TestS
 		myParameterResults = aParameterResults;
 	}
 
-	// Implementation of the Observer Pattern
-	protected void notifyObservers()
-	{
-	    Trace.println(Trace.EXEC_PLUS);
-
-	    for (TestStepResultObserver observer : myObserverCollection)
-	    {
-	    	observer.notify(this);
-	    }
-	}
-	
-	public void register( TestStepResultObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.add(anObserver);
-	}
-
-	public void unRegisterObserver( TestStepResultObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.remove( anObserver );
-	}
-	
 	public static TestStepResult createResult( TestStep aStep ) {
 		if ( aStep instanceof TestStepCommand ) {
 			return new TestStepCommandResultImpl( (TestStepCommand) aStep );

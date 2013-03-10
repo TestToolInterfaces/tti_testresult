@@ -13,6 +13,7 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestStepCommandResultImpl extends TestStepResultImpl implements TestStepCommandResult
 {
+
 	/**
 	 * @param aTestCaseName
 	 */
@@ -27,4 +28,5 @@ public class TestStepCommandResultImpl extends TestStepResultImpl implements Tes
 	{
 		return ((TestStepCommand) this.getTestEntry()).getCommand();
 	}
+	
 }

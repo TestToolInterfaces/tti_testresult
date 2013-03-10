@@ -38,6 +38,4 @@ public interface TestCaseResult extends TestExecItemResult {
 	public void register(TestCaseResultObserver anObserver);
 
 	public void unRegisterObserver(TestCaseResultObserver anObserver);
-
-	public void notify(TestStepResult aTestStepResult);
 }

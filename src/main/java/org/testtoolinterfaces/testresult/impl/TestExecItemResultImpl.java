@@ -8,15 +8,17 @@ import java.util.Hashtable;
 
 import org.testtoolinterfaces.testresult.TestExecItemResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
+import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestExecItem;
+import org.testtoolinterfaces.testsuite.TestGroupEntry;
 import org.testtoolinterfaces.utils.Trace;
 
 /**
  * @author Arjan Kranenburg
  *
  */
-public class TestExecItemResultImpl extends TestGroupEntryResultImpl
+public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 		implements TestExecItemResult, TestStepResultObserver
 {
     private Hashtable<Integer, TestStepResult> myPrepareResults;
@@ -25,11 +27,11 @@ public class TestExecItemResultImpl extends TestGroupEntryResultImpl
     /**
 	 * @param aTestGroupName
 	 */
-	public TestExecItemResultImpl(TestExecItem aTestExecItem)
+	public TestExecItemResultImpl(TestGroupEntry aTestGroupEntry)
 	{
-		super( aTestExecItem );
+		super( aTestGroupEntry );
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestExecItemResultImpl( " + aTestExecItem + " )" );
+	    Trace.println(Trace.CONSTRUCTOR, "TestExecItemResultImpl( " + aTestGroupEntry + " )" );
 
 	    myPrepareResults = new Hashtable<Integer, TestStepResult>();
 		myRestoreResults = new Hashtable<Integer, TestStepResult>();
@@ -95,7 +97,7 @@ public class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	    }
 	}
 
-	public void notify(TestStepResult aTestStepResult)
+	public void notify(TestStepResultBase aTestStepResult)
 	{
 	    Trace.println(Trace.EXEC_UTIL);
 		notifyObservers();
