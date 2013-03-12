@@ -28,11 +28,11 @@ public interface TestCaseResult extends TestExecItemResult {
 	/**
 	 * @param anExecutionResult
 	 */
-	public void addExecution(TestStepResult anExecutionResult);
+	public void addExecution(TestStepResultBase anExecutionResult);
 
 	public void setExecutionPath(String anExecutionPath);
 
-	public Hashtable<Integer, TestStepResult> getExecutionResults();
+	public Hashtable<Integer, TestStepResultBase> getExecutionResults();
 
 	// Implementation of the Observer Pattern
 	public void register(TestCaseResultObserver anObserver);

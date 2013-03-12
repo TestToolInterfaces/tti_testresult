@@ -2,7 +2,7 @@ package org.testtoolinterfaces.testresult;
 
 import java.util.ArrayList;
 
-public class TestStepResultList extends ArrayList<TestStepResult> {
+public class TestStepResultList extends ArrayList<TestStepResultBase> {
 
 	/**
 	 * 

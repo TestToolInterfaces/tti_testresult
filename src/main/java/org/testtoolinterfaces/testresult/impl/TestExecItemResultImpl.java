@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.testtoolinterfaces.testresult.TestExecItemResult;
-import org.testtoolinterfaces.testresult.TestStepResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestExecItem;
@@ -21,8 +20,8 @@ import org.testtoolinterfaces.utils.Trace;
 public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 		implements TestExecItemResult, TestStepResultObserver
 {
-    private Hashtable<Integer, TestStepResult> myPrepareResults;
-    private Hashtable<Integer, TestStepResult> myRestoreResults;
+    private Hashtable<Integer, TestStepResultBase> myPrepareResults;
+    private Hashtable<Integer, TestStepResultBase> myRestoreResults;
     
     /**
 	 * @param aTestGroupName
@@ -33,14 +32,14 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 
 	    Trace.println(Trace.CONSTRUCTOR, "TestExecItemResultImpl( " + aTestGroupEntry + " )" );
 
-	    myPrepareResults = new Hashtable<Integer, TestStepResult>();
-		myRestoreResults = new Hashtable<Integer, TestStepResult>();
+	    myPrepareResults = new Hashtable<Integer, TestStepResultBase>();
+		myRestoreResults = new Hashtable<Integer, TestStepResultBase>();
 	}
 
 	/**
 	 * @param aPrepareResult
 	 */
-	public void addInitialization(TestStepResult aPrepareResult)
+	public void addInitialization(TestStepResultBase aPrepareResult)
 	{
 	    Trace.println(Trace.SETTER);
 	    myPrepareResults.put( myPrepareResults.size(), aPrepareResult );
@@ -53,7 +52,7 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	/**
 	 * @param anInitializationResult
 	 */
-	public void addRestore(TestStepResult aRestoreResult)
+	public void addRestore(TestStepResultBase aRestoreResult)
 	{
 	    Trace.println(Trace.SETTER);
 	    myRestoreResults.put( myRestoreResults.size(), aRestoreResult );
@@ -69,13 +68,13 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 		return ((TestExecItem) this.getTestEntry()).getRequirements();
 	}
 	
-	public Hashtable<Integer, TestStepResult> getPrepareResults()
+	public Hashtable<Integer, TestStepResultBase> getPrepareResults()
 	{
 	    Trace.println(Trace.GETTER);
 		return myPrepareResults;
 	}
 	
-	public Hashtable<Integer, TestStepResult> getRestoreResults()
+	public Hashtable<Integer, TestStepResultBase> getRestoreResults()
 	{
 	    Trace.println(Trace.GETTER);
 		return myRestoreResults;
@@ -86,12 +85,12 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	{
 		super.setExecutionPath(anExecutionPath);
 		
-	    for (TestStepResult result : myPrepareResults.values())
+	    for (TestStepResultBase result : myPrepareResults.values())
 	    {
 	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
 	    }
 
-	    for (TestStepResult result : myRestoreResults.values())
+	    for (TestStepResultBase result : myRestoreResults.values())
 	    {
 	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
 	    }

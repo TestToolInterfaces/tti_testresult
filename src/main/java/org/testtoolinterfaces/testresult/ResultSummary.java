@@ -108,4 +108,61 @@ public class ResultSummary
 	    Trace.println(Trace.GETTER);
 		return VERDICT.UNKNOWN;
 	}
+
+	/**
+	 * @param verdict
+	 */
+	public void addVerdict(VERDICT verdict) {
+
+		if (verdict == VERDICT.PASSED) {
+			myNrOfTCsPassed += 1;
+		} else if (verdict == VERDICT.FAILED) {
+			myNrOfTCsFailed += 1;
+		} else if (verdict == VERDICT.ERROR) {
+			myNrOfTCsError += 1;
+		} else {
+			myNrOfTCsUnknown += 1;
+		}
+	}
+
+	/**
+	 * @param summary
+	 * @return
+	 */
+	public void addSummary(ResultSummary summary) {
+		myNrOfTCsPassed += summary.getNrOfTCsPassed();
+		myNrOfTCsFailed += summary.getNrOfTCsFailed();
+		myNrOfTCsError  += summary.getNrOfTCsError();
+		myNrOfTCsUnknown  += summary.getNrOfTCsUnknown();
+	}
+
+	/**
+	 * @param tgEntryResult
+	 * @return
+	 */
+	public void addResult( TestGroupEntryResult tgEntryResult ) {
+		if ( tgEntryResult instanceof TestGroupResult ) {
+			ResultSummary tgSummary = ((TestGroupResult) tgEntryResult).getSummary();
+			this.addSummary(tgSummary);
+		}
+		else if ( tgEntryResult instanceof TestCaseResult ) {
+			VERDICT verdict = ((TestCaseResult) tgEntryResult).getResult();
+			this.addVerdict(verdict);
+		}
+		else if ( tgEntryResult instanceof TestGroupResultLink ) {
+			ResultSummary tgSummary = ((TestGroupResultLink) tgEntryResult).getSummary();
+			this.addSummary(tgSummary);
+		}
+		else if ( tgEntryResult instanceof TestCaseResultLink ) {
+			VERDICT verdict = ((TestCaseResultLink) tgEntryResult).getResult();
+			this.addVerdict(verdict);
+		}
+		else if ( tgEntryResult instanceof TestExecItemIterationResult ) {
+			ResultSummary tgSummary = ((TestExecItemIterationResult) tgEntryResult).getSummary();
+			this.addSummary(tgSummary);
+		}
+		else {
+			this.addVerdict( VERDICT.UNKNOWN );
+		}
+	}
 }

@@ -4,8 +4,10 @@
 package org.testtoolinterfaces.testresult.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.testtoolinterfaces.testresult.TestExecItemResultLink;
+import org.testtoolinterfaces.testresult.TestExecItemResultLinkObserver;
 import org.testtoolinterfaces.testsuite.TestExecItemLink;
 import org.testtoolinterfaces.utils.Trace;
 
@@ -18,6 +20,8 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 {
 	private String myType;
 	private File myLink;
+
+    private ArrayList<TestExecItemResultLinkObserver> myObserverCollection;
 
 	/**
 	 * @param aTcLink
@@ -32,6 +36,8 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 
 		myType = aTestExecItemLink.getLinkType();
 		myLink = aLink;
+
+		myObserverCollection = new ArrayList<TestExecItemResultLinkObserver>();
 	}
 
 	/**
@@ -50,5 +56,25 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 	{
 	    Trace.println(Trace.GETTER);
 		return myLink;
+	}
+
+	protected void notifyObservers()
+	{
+	    Trace.println(Trace.EXEC_PLUS);
+
+	    for (TestExecItemResultLinkObserver observer : myObserverCollection)
+	    {
+	    	observer.notify(this);
+	    }
+	}
+	
+	public void register(TestExecItemResultLinkObserver anObserver) {
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.add(anObserver);
+	}
+
+	public void unRegisterObserver(TestExecItemResultLinkObserver anObserver) {
+	    Trace.println(Trace.SETTER);
+	    myObserverCollection.remove( anObserver );
 	}
 }

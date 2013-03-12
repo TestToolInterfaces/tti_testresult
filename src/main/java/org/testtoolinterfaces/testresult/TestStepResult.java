@@ -17,9 +17,9 @@ public interface TestStepResult extends TestStepResultBase
 
 	public ParameterArrayList getParameters();
 
-	public void addSubStep( TestStepResult aSubStepResult );
+	public void addSubStep( TestStepResultBase testStepResultBase );
 
-	public ArrayList<TestStepResult> getSubSteps();
+	public ArrayList<TestStepResultBase> getSubSteps();
 	
     public ArrayList<ParameterResult> getParameterResults();
 

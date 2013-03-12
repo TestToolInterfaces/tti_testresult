@@ -11,4 +11,7 @@ package org.testtoolinterfaces.testresult;
 public interface TestExecItemIterationResult 
 	extends TestEntryIterationResult<TestGroupEntryResult>, TestGroupEntryResult
 {
+	public ResultSummary getSummary();
+
+	public void register(TestGroupResultObserver aTestGroupResultObserver);
 }

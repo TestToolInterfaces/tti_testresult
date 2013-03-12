@@ -164,7 +164,7 @@ public class TestRunResultTester extends TestCase implements TestRunResultObserv
 		TestCaseResultLink tcResultLink = new TestCaseResultLinkImpl( testCaseLink,
 		                                                          VERDICT.PASSED,
 		                                                          new File( "DummyResult" ) );
-		testGroupResult.addTestCase(tcResultLink);
+		testGroupResult.addTestExecItemResultLink(tcResultLink);
 
 		Assert.assertEquals("Incorrect Number of Notifies", 2, notifyCounter);
 	}

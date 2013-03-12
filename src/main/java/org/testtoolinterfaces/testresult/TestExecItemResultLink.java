@@ -22,4 +22,10 @@ public interface TestExecItemResultLink extends TestGroupEntryResult
 	 * @return the Test Link Type
 	 */
 	public String getType();
+
+	// Implementation of the Observer Pattern
+	
+	public void register( TestExecItemResultLinkObserver anObserver );
+
+	public void unRegisterObserver( TestExecItemResultLinkObserver anObserver );
 }

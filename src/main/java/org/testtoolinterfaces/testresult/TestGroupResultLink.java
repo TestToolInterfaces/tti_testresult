@@ -15,9 +15,5 @@ public interface TestGroupResultLink extends TestExecItemResultLink
 	
 	// Implementation of the Observer Pattern
 	
-	public void register( TestGroupResultLinkObserver anObserver );
-
-	public void unRegisterObserver( TestGroupResultLinkObserver anObserver );
-
 	public void notify(TestGroupResult aTestGroupResult);
 }

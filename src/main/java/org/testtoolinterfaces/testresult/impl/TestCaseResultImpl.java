@@ -8,7 +8,7 @@ import java.util.Hashtable;
 
 import org.testtoolinterfaces.testresult.TestCaseResult;
 import org.testtoolinterfaces.testresult.TestCaseResultObserver;
-import org.testtoolinterfaces.testresult.TestStepResult;
+import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestCase;
 import org.testtoolinterfaces.utils.Trace;
@@ -23,7 +23,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	private TestCase myTestCase;
 	private VERDICT myResult = VERDICT.UNKNOWN;
 
-    private Hashtable<Integer, TestStepResult> myExecutionResults;
+    private Hashtable<Integer, TestStepResultBase> myExecutionResults;
     
     private ArrayList<TestCaseResultObserver> myObserverCollection;
 
@@ -37,7 +37,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResult( " + aTestCase + " )" );
 	    myTestCase = aTestCase;
 
-	    myExecutionResults = new Hashtable<Integer, TestStepResult>();
+	    myExecutionResults = new Hashtable<Integer, TestStepResultBase>();
 
 		myObserverCollection = new ArrayList<TestCaseResultObserver>();
 	}
@@ -71,7 +71,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	/**
 	 * @param anExecutionResult
 	 */
-	public void addExecution(TestStepResult anExecutionResult)
+	public void addExecution(TestStepResultBase anExecutionResult)
 	{
 	    Trace.println(Trace.SETTER);
 		myExecutionResults.put( myExecutionResults.size(), anExecutionResult );
@@ -87,7 +87,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	{
 		super.setExecutionPath(anExecutionPath);
 		
-	    for (TestStepResult result : myExecutionResults.values())
+	    for (TestStepResultBase result : myExecutionResults.values())
 	    {
 	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
 	    }
@@ -99,7 +99,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 		return myTestCase.getRequirements();
 	}
 	
-	public Hashtable<Integer, TestStepResult> getExecutionResults()
+	public Hashtable<Integer, TestStepResultBase> getExecutionResults()
 	{
 	    Trace.println(Trace.GETTER);
 		return myExecutionResults;

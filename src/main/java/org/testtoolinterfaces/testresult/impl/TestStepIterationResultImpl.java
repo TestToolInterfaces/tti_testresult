@@ -3,7 +3,6 @@
  */
 package org.testtoolinterfaces.testresult.impl;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -20,23 +19,18 @@ import org.testtoolinterfaces.utils.Trace;
  *
  */
 public class TestStepIterationResultImpl extends TestStepResultBaseImpl
-//TestEntryIterationResultImpl<TestStepResult>
 	implements TestStepIterationResult, TestStepResultObserver
 {
-	private Hashtable<Integer, List<TestStepResult>> execResults;
+	private Hashtable<Integer, List<TestStepResultBase>> execResults;
 	private Hashtable<Integer, Object> iterationValues;
 	private Hashtable<Integer, TestStepResult> untilResults;
-
-	private ArrayList<TestStepResultObserver> myObserverCollection;
 
 	public TestStepIterationResultImpl(TestStepIteration aTestStepIteration) {
 		super(aTestStepIteration);
 		
-		execResults = new Hashtable<Integer, List<TestStepResult>>();
+		execResults = new Hashtable<Integer, List<TestStepResultBase>>();
 		iterationValues = new Hashtable<Integer, Object>();
 		untilResults = new Hashtable<Integer, TestStepResult>();
-
-		myObserverCollection = new ArrayList<TestStepResultObserver>();
 	}
 	
 	public VERDICT getResult() {
@@ -44,11 +38,11 @@ public class TestStepIterationResultImpl extends TestStepResultBaseImpl
 
 		VERDICT finalResult = VERDICT.UNKNOWN;
 
-		Iterator<List<TestStepResult>> testStepResultListItr = this.getIterator(); 
+		Iterator<List<TestStepResultBase>> testStepResultListItr = this.getIterator(); 
 		while ( testStepResultListItr.hasNext() )
 		{
-			List<TestStepResult> testStepResultList = testStepResultListItr.next();
-			Iterator<TestStepResult> testStepResultItr = testStepResultList.iterator();
+			List<TestStepResultBase> testStepResultList = testStepResultListItr.next();
+			Iterator<TestStepResultBase> testStepResultItr = testStepResultList.iterator();
 			while ( testStepResultItr.hasNext() ) {
 				VERDICT result = testStepResultItr.next().getResult();
 			    if (finalResult.compareTo(result) < 0)
@@ -69,7 +63,7 @@ public class TestStepIterationResultImpl extends TestStepResultBaseImpl
 		return ((TestStepIteration) this.getTestEntry()).getListName();
 	}
 
-	public Iterator<List<TestStepResult>> getIterator() {
+	public Iterator<List<TestStepResultBase>> getIterator() {
 		return execResults.values().iterator();
 	}
 
@@ -77,11 +71,11 @@ public class TestStepIterationResultImpl extends TestStepResultBaseImpl
 		return execResults.size();
 	}
 
-	public void addExecResult(List<TestStepResult> aTestResultSequence) {
+	public void addExecResult(List<TestStepResultBase> aTestResultSequence) {
 		execResults.put(execResults.size(), aTestResultSequence);
 	}
 
-	public Hashtable<Integer, List<TestStepResult>> getTestResultSequenceTable() {
+	public Hashtable<Integer, List<TestStepResultBase>> getTestResultSequenceTable() {
 		return this.execResults;
 	}
 

@@ -4,12 +4,10 @@
 package org.testtoolinterfaces.testresult.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.testtoolinterfaces.testresult.ResultSummary;
 import org.testtoolinterfaces.testresult.TestGroupResult;
 import org.testtoolinterfaces.testresult.TestGroupResultLink;
-import org.testtoolinterfaces.testresult.TestGroupResultLinkObserver;
 import org.testtoolinterfaces.testresult.TestGroupResultObserver;
 import org.testtoolinterfaces.testsuite.TestGroupLink;
 import org.testtoolinterfaces.utils.Trace;
@@ -23,8 +21,6 @@ public class TestGroupResultLinkImpl extends TestExecItemResultLinkImpl
 {
 	private ResultSummary myResultSummary;
 	
-	ArrayList<TestGroupResultLinkObserver> myObserverCollection;
-
 	/**
 	 * @param aTestGroupLink
 	 * @param aResultSummary
@@ -40,7 +36,6 @@ public class TestGroupResultLinkImpl extends TestExecItemResultLinkImpl
 	                  											 + aLink + " )" );
 
 		myResultSummary = aResultSummary;
-		myObserverCollection = new ArrayList<TestGroupResultLinkObserver>();
 	}
 
 	/**
@@ -66,28 +61,6 @@ public class TestGroupResultLinkImpl extends TestExecItemResultLinkImpl
 	
 	// Implementation of the Observer Pattern
 	
-	protected void notifyObservers()
-	{
-	    Trace.println(Trace.EXEC_PLUS);
-
-	    for (TestGroupResultLinkObserver observer : myObserverCollection)
-	    {
-	    	observer.notify(this);
-	    }
-	}
-	
-	public void register( TestGroupResultLinkObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.add(anObserver);
-	}
-
-	public void unRegisterObserver( TestGroupResultLinkObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.remove( anObserver );
-	}
-
 	public void notify(TestGroupResult aTestGroupResult)
 	{
 		setSummary( aTestGroupResult.getSummary() );

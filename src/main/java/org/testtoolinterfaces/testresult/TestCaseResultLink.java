@@ -26,9 +26,4 @@ public interface TestCaseResultLink extends TestExecItemResultLink
 	 */
 	public void setTcResult(TestCaseResult myLoadedTcResult);
 
-	// Implementation of the Observer Pattern
-	
-	public void register( TestCaseResultLinkObserver anObserver );
-
-	public void unRegisterObserver( TestCaseResultLinkObserver anObserver );
 }

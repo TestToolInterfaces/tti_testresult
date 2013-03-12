@@ -9,12 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.testtoolinterfaces.testresult.ResultSummary;
-import org.testtoolinterfaces.testresult.TestCaseResult;
 import org.testtoolinterfaces.testresult.TestCaseResultLink;
 import org.testtoolinterfaces.testresult.TestCaseResultLinkObserver;
 import org.testtoolinterfaces.testresult.TestExecItemIterationResult;
 import org.testtoolinterfaces.testresult.TestGroupEntryResult;
-import org.testtoolinterfaces.testresult.TestGroupResult;
 import org.testtoolinterfaces.testresult.TestGroupResultLink;
 import org.testtoolinterfaces.testresult.TestGroupResultLinkObserver;
 import org.testtoolinterfaces.testresult.TestGroupResultObserver;
@@ -63,6 +61,8 @@ public class TestExecItemIterationResultImpl extends TestGroupEntryResultImpl
 
 	public void addExecResult(List<TestGroupEntryResult> aTestResultSequence) {
 		execResults.put(execResults.size(), aTestResultSequence);
+
+		notifyObservers();
 	}
 
 	public Hashtable<Integer, List<TestGroupEntryResult>> getTestResultSequenceTable() {
@@ -92,10 +92,7 @@ public class TestExecItemIterationResultImpl extends TestGroupEntryResultImpl
 	public ResultSummary getSummary() {
 	    Trace.println(Trace.GETTER);
 
-	    int nrOfTCsPassed = 0;
-		int nrOfTCsFailed = 0;
-		int nrOfTCsUnknown = 0;
-		int nrOfTCsError = 0;
+		ResultSummary summary = new ResultSummary( 0, 0, 0, 0 );
 
 		Iterator<List<TestGroupEntryResult>> testGroupEntryListItr = this.getIterator(); 
 		while ( testGroupEntryListItr.hasNext() )
@@ -104,32 +101,11 @@ public class TestExecItemIterationResultImpl extends TestGroupEntryResultImpl
 			Iterator<TestGroupEntryResult> tgEntryItr = tgEntryResultList.iterator();
 			while ( tgEntryItr.hasNext() ) {
 				TestGroupEntryResult tgEntryResult = tgEntryItr.next();
-				if ( tgEntryResult instanceof TestGroupResult ) {
-					ResultSummary tgSummary = ((TestGroupResult) tgEntryResult).getSummary();
-		    		nrOfTCsPassed += tgSummary.getNrOfTCsPassed();
-			    	nrOfTCsFailed += tgSummary.getNrOfTCsFailed();
-			    	nrOfTCsUnknown += tgSummary.getNrOfTCsUnknown();
-			    	nrOfTCsError += tgSummary.getNrOfTCsError();
-				}
-				else if ( tgEntryResult instanceof TestCaseResult ) {
-					VERDICT verdict = ((TestCaseResult) tgEntryResult).getResult();
-					if (verdict == VERDICT.PASSED) {
-						nrOfTCsPassed += 1;
-					} else if (verdict == VERDICT.FAILED) {
-						nrOfTCsFailed += 1;
-					} else if (verdict == VERDICT.UNKNOWN) {
-						nrOfTCsUnknown += 1;
-					} else if (verdict == VERDICT.ERROR) {
-						nrOfTCsError += 1;
-					}
-				}
-				else {
-					nrOfTCsUnknown += 1;
-				}
+				summary.addResult(tgEntryResult);
 			}
 		}
 
-	    return new ResultSummary( nrOfTCsPassed, nrOfTCsFailed, nrOfTCsUnknown, nrOfTCsError );
+	    return summary;
 	}
 
 	public void register(TestGroupResultObserver anObserver) {

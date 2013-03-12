@@ -16,17 +16,17 @@ public interface TestExecItemResult extends TestGroupEntryResult
 
 	public ArrayList<String> getRequirements();
 	
-	public Hashtable<Integer, TestStepResult> getPrepareResults();
+	public Hashtable<Integer, TestStepResultBase> getPrepareResults();
 
 	/**
 	 * @param aPrepareResult
 	 */
-	public void addInitialization(TestStepResult aPrepareResult);
+	public void addInitialization(TestStepResultBase aPrepareResult);
 
-	public Hashtable<Integer, TestStepResult> getRestoreResults();
+	public Hashtable<Integer, TestStepResultBase> getRestoreResults();
 
 	/**
 	 * @param aRestoreResult
 	 */
-	public void addRestore(TestStepResult aRestoreResult);
+	public void addRestore(TestStepResultBase aRestoreResult);
 }

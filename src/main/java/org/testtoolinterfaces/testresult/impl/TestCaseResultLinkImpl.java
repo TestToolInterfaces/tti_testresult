@@ -4,11 +4,9 @@
 package org.testtoolinterfaces.testresult.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.testtoolinterfaces.testresult.TestCaseResult;
 import org.testtoolinterfaces.testresult.TestCaseResultLink;
-import org.testtoolinterfaces.testresult.TestCaseResultLinkObserver;
 import org.testtoolinterfaces.testresult.TestCaseResultObserver;
 import org.testtoolinterfaces.testsuite.TestCaseLink;
 import org.testtoolinterfaces.utils.Trace;
@@ -22,7 +20,6 @@ public class TestCaseResultLinkImpl extends TestExecItemResultLinkImpl
 {
 	private VERDICT myVerdict;
 	private TestCaseResult myLoadedTcResult;
-    private ArrayList<TestCaseResultLinkObserver> myObserverCollection;
 
 	/**
 	 * @param aTcLink
@@ -37,7 +34,6 @@ public class TestCaseResultLinkImpl extends TestExecItemResultLinkImpl
 	                  											 + aLink + " )" );
 	    myVerdict = aVerdict;
 		myLoadedTcResult = null;
-		myObserverCollection = new ArrayList<TestCaseResultLinkObserver>();
 	}
 
 	/**
@@ -68,30 +64,6 @@ public class TestCaseResultLinkImpl extends TestExecItemResultLinkImpl
 	public void setTcResult(TestCaseResult myLoadedTcResult)
 	{
 		this.myLoadedTcResult = myLoadedTcResult;
-	}
-
-	// Implementation of the Observer Pattern
-	
-	protected void notifyObservers()
-	{
-	    Trace.println(Trace.EXEC_PLUS);
-
-	    for (TestCaseResultLinkObserver observer : myObserverCollection)
-	    {
-	    	observer.notify(this);
-	    }
-	}
-	
-	public void register( TestCaseResultLinkObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.add(anObserver);
-	}
-
-	public void unRegisterObserver( TestCaseResultLinkObserver anObserver )
-	{
-	    Trace.println(Trace.SETTER);
-	    myObserverCollection.remove( anObserver );
 	}
 
 	public void notify(TestCaseResult aTestCaseResult) {

@@ -8,9 +8,11 @@ import java.util.Iterator;
 
 import org.testtoolinterfaces.testresult.ParameterResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
+import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
 import org.testtoolinterfaces.testsuite.TestStepCommand;
+import org.testtoolinterfaces.testsuite.TestStepIteration;
 import org.testtoolinterfaces.testsuite.TestStepScript;
 import org.testtoolinterfaces.testsuite.TestStepSelection;
 import org.testtoolinterfaces.utils.Trace;
@@ -23,7 +25,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 {
 	private VERDICT myResult = VERDICT.UNKNOWN;
 
-	private ArrayList<TestStepResult> mySubStepResults;
+	private ArrayList<TestStepResultBase> mySubStepResults;
     private ArrayList<ParameterResult> myParameterResults;
 
 	/**
@@ -35,7 +37,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 
 	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
 
-	    mySubStepResults = new ArrayList<TestStepResult>();
+	    mySubStepResults = new ArrayList<TestStepResultBase>();
 	}
 
 	/**
@@ -70,7 +72,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 	{
 		super.setExecutionPath(anExecutionPath);
 
-		Iterator<TestStepResult> subStepItr = mySubStepResults.iterator();
+		Iterator<TestStepResultBase> subStepItr = mySubStepResults.iterator();
 		while (subStepItr.hasNext())
 		{
 			subStepItr.next().setExecutionPath(anExecutionPath + "." + this.getDisplayName());
@@ -83,7 +85,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 		return ((TestStep) this.getTestEntry()).getParameters();
 	}
 
-	public void addSubStep( TestStepResult aSubStepResult )
+	public void addSubStep( TestStepResultBase aSubStepResult )
 	{
 	    Trace.println(Trace.SETTER);
 	    mySubStepResults.add(aSubStepResult);
@@ -91,7 +93,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 	    this.setResult( aSubStepResult.getResult() );
 	}
 
-	public ArrayList<TestStepResult> getSubSteps()
+	public ArrayList<TestStepResultBase> getSubSteps()
 	{
 	    Trace.println(Trace.GETTER);
 		return mySubStepResults;
@@ -114,6 +116,8 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 			return new TestStepScriptResultImpl( (TestStepScript) aStep );
 		} else if ( aStep instanceof TestStepSelection ) {
 			return new TestStepSelectionResultImpl( (TestStepSelection) aStep );
+		} else if ( aStep instanceof TestStepIteration ) {
+			throw new Error( "Programming error: Do not use createResult for a TestStepIteration" );
 		}
 
 		//Unknown
