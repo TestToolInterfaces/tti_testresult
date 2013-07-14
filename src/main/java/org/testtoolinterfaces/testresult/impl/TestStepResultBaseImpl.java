@@ -20,6 +20,8 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 {
     private ArrayList<TestStepResultObserver> myObserverCollection;
 
+	private String myDisplayName = "";
+
 	/**
 	 * @param aTestCaseName
 	 */
@@ -30,18 +32,19 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 	    Trace.println(Trace.CONSTRUCTOR, "TestStepBaseResult( " + aTestStep + " )" );
 
 		myObserverCollection = new ArrayList<TestStepResultObserver>();
+		myDisplayName = aTestStep.getDisplayName();
 	}
 
 	public void setDisplayName( String aDisplayName )
 	{
 	    Trace.println(Trace.SETTER);
-		((TestStep) this.getTestEntry()).setDisplayName(aDisplayName);
+	    myDisplayName = aDisplayName;
 	}
 	
 	public String getDisplayName()
 	{
 	    Trace.println(Trace.GETTER);
-		return ((TestStep) this.getTestEntry()).getDisplayName();
+		return myDisplayName;
 	}
 	
 	/**
