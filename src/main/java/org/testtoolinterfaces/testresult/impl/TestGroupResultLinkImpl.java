@@ -5,12 +5,14 @@ package org.testtoolinterfaces.testresult.impl;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.ResultSummary;
 import org.testtoolinterfaces.testresult.TestGroupResult;
 import org.testtoolinterfaces.testresult.TestGroupResultLink;
 import org.testtoolinterfaces.testresult.observer.TestGroupResultObserver;
 import org.testtoolinterfaces.testsuite.TestGroupLink;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -19,7 +21,9 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestGroupResultLinkImpl extends TestExecItemResultLinkImpl
 	implements TestGroupResultLink, TestGroupResultObserver
 {
-	private ResultSummary myResultSummary;
+    private static final Logger LOG = LoggerFactory.getLogger(TestGroupResultLinkImpl.class);
+
+    private ResultSummary myResultSummary;
 	
 	/**
 	 * @param aTestGroupLink
@@ -31,9 +35,8 @@ public class TestGroupResultLinkImpl extends TestExecItemResultLinkImpl
 								File aLink )
 	{
 		super(aTestGroupLink, aLink);
-	    Trace.println(Trace.CONSTRUCTOR, "TestGroupResultLink( " + aTestGroupLink.getId() + ", "
-	                  											 + aResultSummary + ", "
-	                  											 + aLink + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}, {}, {}",
+				aTestGroupLink, aResultSummary, aLink );
 
 		myResultSummary = aResultSummary;
 	}

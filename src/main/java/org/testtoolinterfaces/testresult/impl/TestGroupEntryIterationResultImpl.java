@@ -8,6 +8,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.ResultSummary;
 import org.testtoolinterfaces.testresult.TestCaseResultLink;
 import org.testtoolinterfaces.testresult.TestGroupEntryIterationResult;
@@ -18,7 +20,7 @@ import org.testtoolinterfaces.testresult.observer.TestCaseResultLinkObserver;
 import org.testtoolinterfaces.testresult.observer.TestGroupResultLinkObserver;
 import org.testtoolinterfaces.testresult.observer.TestGroupResultObserver;
 import org.testtoolinterfaces.testsuite.TestGroupEntryIteration;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -27,6 +29,7 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestGroupEntryIterationResultImpl extends TestGroupEntryResultImpl
 	implements TestGroupEntryIterationResult,
 		TestGroupResultLinkObserver, TestCaseResultLinkObserver {
+    private static final Logger LOG = LoggerFactory.getLogger(TestGroupEntryIterationResultImpl.class);
 
 	private Hashtable<Integer, List<TestGroupEntryResult>> execResults;
 	private Hashtable<Integer, Object> iterationValues;
@@ -91,7 +94,7 @@ public class TestGroupEntryIterationResultImpl extends TestGroupEntryResultImpl
 
 	
 	public ResultSummary getSummary() {
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 
 		ResultSummary summary = new ResultSummary( 0, 0, 0, 0 );
 
@@ -110,22 +113,22 @@ public class TestGroupEntryIterationResultImpl extends TestGroupEntryResultImpl
 	}
 
 	public void register(TestGroupResultObserver anObserver) {
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.add(anObserver);
 	}
 
 	public void unRegisterObserver(TestGroupResultObserver anObserver) {
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.remove( anObserver );
 	}
 
 	public void notify(TestGroupResultLink aTestGroupResultLink) {
-	    Trace.println(Trace.EXEC_UTIL);
+		LOG.trace(Mark.EXEC_UTIL, "{}", aTestGroupResultLink);
 		notifyObservers();
 	}
 
 	public void notify(TestCaseResultLink aTestCaseResultLink) {
-	    Trace.println(Trace.EXEC_UTIL);
+		LOG.trace(Mark.EXEC_UTIL, "{}", aTestCaseResultLink);
 		notifyObservers();
 	}
 }

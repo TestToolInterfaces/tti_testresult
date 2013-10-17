@@ -3,10 +3,13 @@ package org.testtoolinterfaces.testresult;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.testtoolinterfaces.utils.Trace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testtoolinterfaces.utils.Mark;
 
 public class TestStepResultList extends ArrayList<TestStepResultBase>
 		implements SingleResult {
+    private static final Logger LOG = LoggerFactory.getLogger(TestStepResultList.class);
 
 	/**
 	 * 
@@ -14,7 +17,7 @@ public class TestStepResultList extends ArrayList<TestStepResultBase>
 	private static final long serialVersionUID = -3698536176076570429L;
 
 	public VERDICT getResult() {
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 
 		VERDICT finalResult = VERDICT.UNKNOWN;
 

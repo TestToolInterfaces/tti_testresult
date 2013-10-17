@@ -3,10 +3,12 @@
  */
 package org.testtoolinterfaces.testresult.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.ResultTiming;
 import org.testtoolinterfaces.testresult.TestGroupEntryResult;
 import org.testtoolinterfaces.testsuite.TestGroupEntry;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -14,6 +16,7 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestGroupEntryResultImpl extends TestResultImpl
 		implements TestGroupEntryResult {
+    private static final Logger LOG = LoggerFactory.getLogger(TestGroupEntryResultImpl.class);
 
 	private ResultTiming myTiming;
 
@@ -21,7 +24,7 @@ public class TestGroupEntryResultImpl extends TestResultImpl
 	 */
 	public TestGroupEntryResultImpl( TestGroupEntry aTestGroupEntry ) {
 		super(aTestGroupEntry);
-	    Trace.println(Trace.CONSTRUCTOR);
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestGroupEntry);
 	}
 
 	/**

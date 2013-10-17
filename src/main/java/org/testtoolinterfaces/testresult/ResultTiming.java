@@ -5,7 +5,9 @@ package org.testtoolinterfaces.testresult;
 
 import java.util.Date;
 
-import org.testtoolinterfaces.utils.Trace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -13,7 +15,9 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class ResultTiming
 {
-	private Date myStart;
+    private static final Logger LOG = LoggerFactory.getLogger(ResultTiming.class);
+
+    private Date myStart;
 	private Date myEnd;
 	
     /**
@@ -22,8 +26,7 @@ public class ResultTiming
 	 */
 	public ResultTiming(Date aStart, Date anEnd)
 	{
-	    Trace.println( Trace.CONSTRUCTOR, "ResultSummary( " + aStart + ", "
-	                  										+ anEnd + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}, {}", aStart, anEnd );
 	    
 	    myStart = aStart;
 	    myEnd = anEnd;
@@ -34,7 +37,7 @@ public class ResultTiming
 	 */
 	public Date getStart()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myStart;
 	}
 
@@ -43,7 +46,7 @@ public class ResultTiming
 	 */
 	public Date getEnd()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myEnd;
 	}
 }

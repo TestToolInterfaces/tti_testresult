@@ -6,12 +6,14 @@ package org.testtoolinterfaces.testresult.impl;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestCaseResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.observer.TestCaseResultObserver;
 import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestCase;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -20,7 +22,9 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestCaseResultImpl extends TestExecItemResultImpl
 	implements TestCaseResult, TestStepResultObserver
 {
-	private TestCase myTestCase;
+    private static final Logger LOG = LoggerFactory.getLogger(TestCaseResultImpl.class);
+
+    private TestCase myTestCase;
 	private VERDICT myResult = VERDICT.UNKNOWN;
 
     private Hashtable<Integer, TestStepResultBase> myExecutionResults;
@@ -33,18 +37,16 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	public TestCaseResultImpl(TestCase aTestCase)
 	{
 		super(aTestCase);
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestCase);
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestCaseResult( " + aTestCase + " )" );
 	    myTestCase = aTestCase;
-
 	    myExecutionResults = new Hashtable<Integer, TestStepResultBase>();
-
 		myObserverCollection = new ArrayList<TestCaseResultObserver>();
 	}
 
 	public VERDICT getResult()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myResult;
 	}
 
@@ -60,7 +62,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	 */
 	public void setResult(VERDICT aResult)
 	{
-	    Trace.println(Trace.SETTER, "setResult( " + aResult + " )", true);
+		LOG.trace(Mark.SETTER, "{}", aResult);
 	    if (myResult.compareTo(aResult) < 0)
 	    {
 	        myResult = aResult;
@@ -73,7 +75,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	 */
 	public void addExecution(TestStepResultBase anExecutionResult)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anExecutionResult);
 		myExecutionResults.put( myExecutionResults.size(), anExecutionResult );
 		setResult(anExecutionResult.getResult());
 
@@ -82,26 +84,15 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	    notifyObservers();
 	}
 
-//	@Override
-//	public void setExecutionPath(String anExecutionPath)
-//	{
-//		super.setExecutionPath(anExecutionPath);
-//		
-//	    for (TestStepResultBase result : myExecutionResults.values())
-//	    {
-//	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-//	    }
-//	}
-
 	public ArrayList<String> getRequirements()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myTestCase.getRequirements();
 	}
 	
 	public Hashtable<Integer, TestStepResultBase> getExecutionResults()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myExecutionResults;
 	}
 	
@@ -109,7 +100,7 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	
 	protected void notifyObservers()
 	{
-	    Trace.println(Trace.EXEC_PLUS);
+		LOG.trace(Mark.EXEC_PLUS, "");
 
 	    for (TestCaseResultObserver observer : myObserverCollection)
 	    {
@@ -119,19 +110,19 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	
 	public void register( TestCaseResultObserver anObserver )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.add(anObserver);
 	}
 
 	public void unRegisterObserver( TestCaseResultObserver anObserver )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.remove( anObserver );
 	}
 
 	public void notify(TestStepResultBase aTestStepResult)
 	{
-	    Trace.println(Trace.EXEC_UTIL);
+		LOG.trace(Mark.EXEC_UTIL, "{}", aTestStepResult);
 	    
 		setResult(aTestStepResult.getResult());
 		notifyObservers();

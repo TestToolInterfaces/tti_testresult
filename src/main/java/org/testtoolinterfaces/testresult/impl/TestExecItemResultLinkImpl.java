@@ -6,10 +6,12 @@ package org.testtoolinterfaces.testresult.impl;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestExecItemResultLink;
 import org.testtoolinterfaces.testresult.observer.TestExecItemResultLinkObserver;
 import org.testtoolinterfaces.testsuite.TestExecItemLink;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -18,6 +20,8 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 	implements TestExecItemResultLink
 {
+    private static final Logger LOG = LoggerFactory.getLogger(TestExecItemResultLinkImpl.class);
+
 	private String myType;
 	private File myLink;
 
@@ -31,8 +35,7 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 								File aLink )
 	{
 		super(aTestExecItemLink);
-	    Trace.println(Trace.CONSTRUCTOR, "TestGroupResultLink( " + aTestExecItemLink.getId() + ", "
-	                  											 + aLink + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}, {}", aTestExecItemLink, aLink );
 
 		myType = aTestExecItemLink.getLinkType();
 		myLink = aLink;
@@ -45,7 +48,7 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 	 */
 	public String getType()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myType;
 	}
 
@@ -54,13 +57,13 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 	 */
 	public File getLink()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myLink;
 	}
 
 	protected void notifyObservers()
 	{
-	    Trace.println(Trace.EXEC_PLUS);
+		LOG.trace(Mark.EXEC_PLUS, "");
 
 	    for (TestExecItemResultLinkObserver observer : myObserverCollection)
 	    {
@@ -69,12 +72,12 @@ public class TestExecItemResultLinkImpl extends TestGroupEntryResultImpl
 	}
 	
 	public void register(TestExecItemResultLinkObserver anObserver) {
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.add(anObserver);
 	}
 
 	public void unRegisterObserver(TestExecItemResultLinkObserver anObserver) {
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.remove( anObserver );
 	}
 }

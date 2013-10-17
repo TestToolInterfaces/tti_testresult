@@ -2,10 +2,14 @@ package org.testtoolinterfaces.testresult;
 
 import java.util.Hashtable;
 
-import org.testtoolinterfaces.utils.Trace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testtoolinterfaces.utils.Mark;
 
 public class SutInfo
 {
+    private static final Logger LOG = LoggerFactory.getLogger(SutInfo.class);
+
     private String myName;
     private String myVersionMainLevel = "";
     private String myVersionSubLevel = "";
@@ -18,7 +22,7 @@ public class SutInfo
 	 */
 	public SutInfo( String aProduct )
 	{
-	    Trace.println(Trace.CONSTRUCTOR);
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aProduct);
 		myName = aProduct;
 		myLogs = new Hashtable<String, String>();
 	}
@@ -30,7 +34,8 @@ public class SutInfo
 							String aVersionSubLevel,
 							String aVersionPatchLevel )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}, {}, {}", 
+				aVersionMainLevel, aVersionSubLevel, aVersionPatchLevel);
 		myVersionMainLevel = aVersionMainLevel;
 		myVersionSubLevel = aVersionSubLevel;
 		myVersionPatchLevel = aVersionPatchLevel;
@@ -41,7 +46,7 @@ public class SutInfo
 	 */
 	public void setDescription( String aDescription )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aDescription);
 		myDescription = aDescription;
 	}
 
@@ -51,7 +56,7 @@ public class SutInfo
 	 */
 	public void addSutLog(String aKey, String aLog)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}, {}", aKey, aLog);
 		myLogs.put(aKey, aLog);
 	}
 
@@ -60,7 +65,7 @@ public class SutInfo
 	 */
 	public String getDescription()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myDescription;
 	}
 
@@ -69,7 +74,7 @@ public class SutInfo
 	 */
 	public Hashtable<String, String> getLogs()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myLogs;
 	}
 
@@ -78,7 +83,7 @@ public class SutInfo
 	 */
 	public String getName()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myName;
 	}
 
@@ -87,7 +92,7 @@ public class SutInfo
 	 */
 	public String getVersionMainLevel()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myVersionMainLevel;
 	}
 
@@ -96,7 +101,7 @@ public class SutInfo
 	 */
 	public String getVersionSubLevel()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myVersionSubLevel;
 	}
 
@@ -105,7 +110,7 @@ public class SutInfo
 	 */
 	public String getVersionPatchLevel()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myVersionPatchLevel;
 	}
 }

@@ -7,12 +7,14 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestStepIterationResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.impl.TestStepIteration;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -21,7 +23,9 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestStepIterationResultImpl extends TestStepResultBaseImpl
 	implements TestStepIterationResult, TestStepResultObserver
 {
-	private Hashtable<Integer, List<TestStepResultBase>> execResults;
+    private static final Logger LOG = LoggerFactory.getLogger(TestStepIterationResultImpl.class);
+
+    private Hashtable<Integer, List<TestStepResultBase>> execResults;
 	private Hashtable<Integer, Object> iterationValues;
 	private Hashtable<Integer, TestStepResult> untilResults;
 
@@ -34,7 +38,7 @@ public class TestStepIterationResultImpl extends TestStepResultBaseImpl
 	}
 	
 	public VERDICT getResult() {
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 
 		VERDICT finalResult = VERDICT.UNKNOWN;
 
@@ -96,7 +100,7 @@ public class TestStepIterationResultImpl extends TestStepResultBaseImpl
 	}
 
 	public void notify(TestStepResultBase aTestStepResult) {
-	    Trace.println(Trace.EXEC_UTIL);
+		LOG.trace(Mark.EXEC_UTIL, "{}", aTestStepResult);
 		notifyObservers();
 	}
 }

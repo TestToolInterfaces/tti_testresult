@@ -5,11 +5,13 @@ package org.testtoolinterfaces.testresult;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testsuite.Parameter;
 import org.testtoolinterfaces.testsuite.ParameterHash;
 import org.testtoolinterfaces.testsuite.ParameterImpl;
 import org.testtoolinterfaces.testsuite.ParameterVariable;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -17,7 +19,9 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class ParameterResult
 {
-	private final Parameter myParameter;
+    private static final Logger LOG = LoggerFactory.getLogger(ParameterResult.class);
+    
+    private final Parameter myParameter;
 
 	private Object myValue;
 	private Object myActualValue;
@@ -28,7 +32,7 @@ public class ParameterResult
 	 */
 	public ParameterResult(Parameter aParameter)
 	{
-	    Trace.println(Trace.CONSTRUCTOR, "ParameterResult( " + aParameter + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aParameter );
 	    myParameter = aParameter;
 	    
 		if ( myParameter instanceof ParameterImpl )

@@ -3,9 +3,11 @@
  */
 package org.testtoolinterfaces.testresult.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestStepScriptResult;
 import org.testtoolinterfaces.testsuite.impl.TestStepScript;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author arjan.kranenburg
@@ -13,14 +15,15 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestStepScriptResultImpl extends TestStepResultImpl implements TestStepScriptResult
 {
-	/**
+    private static final Logger LOG = LoggerFactory.getLogger(TestStepScriptResultImpl.class);
+
+    /**
 	 * @param aTestCaseName
 	 */
 	public TestStepScriptResultImpl(TestStepScript aTestStepScript)
 	{
 		super( aTestStepScript );
-
-	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStepScript + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestStepScript);
 	}
 
 	public String getScript()

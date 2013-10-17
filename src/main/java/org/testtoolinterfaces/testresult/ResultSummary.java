@@ -3,8 +3,10 @@
  */
 package org.testtoolinterfaces.testresult;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.SingleResult.VERDICT;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -12,7 +14,9 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class ResultSummary
 {
-	private int myNrOfTCsPassed;
+    private static final Logger LOG = LoggerFactory.getLogger(ResultSummary.class);
+
+    private int myNrOfTCsPassed;
 	private int myNrOfTCsFailed;
 	private int myNrOfTCsUnknown;
 	private int myNrOfTCsError;
@@ -34,10 +38,8 @@ public class ResultSummary
 	 */
 	public ResultSummary(int aNrOfTCsPassed, int aNrOfTCsFailed, int aNrOfTCsUnknown, int aNrOfTCsError)
 	{
-	    Trace.println( Trace.CONSTRUCTOR, "ResultSummary( " + aNrOfTCsPassed + ", "
-	                  										+ aNrOfTCsFailed + ", "
-	                  										+ aNrOfTCsUnknown + ", "
-	                  										+ aNrOfTCsError + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}, {}, {}, {}",
+				aNrOfTCsPassed, aNrOfTCsFailed, aNrOfTCsUnknown, aNrOfTCsError );
 	    
 	    myNrOfTCsPassed = aNrOfTCsPassed;
 	    myNrOfTCsFailed = aNrOfTCsFailed;
@@ -50,7 +52,7 @@ public class ResultSummary
 	 */
 	public int getNrOfTCs()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 
 	    return myNrOfTCsPassed + myNrOfTCsFailed + myNrOfTCsUnknown + myNrOfTCsError;
 	}
@@ -60,7 +62,7 @@ public class ResultSummary
 	 */
 	public int getNrOfTCsPassed()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myNrOfTCsPassed;
 	}
 
@@ -70,7 +72,7 @@ public class ResultSummary
 	 */
 	public int getNrOfTCsFailed()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myNrOfTCsFailed;
 	}
 	
@@ -79,7 +81,7 @@ public class ResultSummary
 	 */
 	public int getNrOfTCsUnknown()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myNrOfTCsUnknown;
 	}
 
@@ -89,7 +91,7 @@ public class ResultSummary
 	 */
 	public int getNrOfTCsError()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myNrOfTCsError;
 	}
 
@@ -100,7 +102,7 @@ public class ResultSummary
 	 */
 	public VERDICT getResult()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return VERDICT.UNKNOWN;
 	}
 

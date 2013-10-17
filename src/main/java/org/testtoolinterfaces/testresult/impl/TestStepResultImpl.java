@@ -6,6 +6,8 @@ package org.testtoolinterfaces.testresult.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.ParameterResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
@@ -16,7 +18,7 @@ import org.testtoolinterfaces.testsuite.impl.TestStepCommand;
 import org.testtoolinterfaces.testsuite.impl.TestStepIteration;
 import org.testtoolinterfaces.testsuite.impl.TestStepScript;
 import org.testtoolinterfaces.testsuite.impl.TestStepSelection;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author arjan.kranenburg
@@ -24,7 +26,9 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public abstract class TestStepResultImpl extends TestStepResultBaseImpl implements TestStepResult
 {
-	private VERDICT myResult = VERDICT.UNKNOWN;
+    private static final Logger LOG = LoggerFactory.getLogger(TestStepResultImpl.class);
+
+    private VERDICT myResult = VERDICT.UNKNOWN;
 
 	private TestStepResultList mySubStepResults;
     private ArrayList<ParameterResult> myParameterResults;
@@ -36,7 +40,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 	{
 		super( aTestStep );
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestStep);
 
 	    mySubStepResults = new TestStepResultList();
 	}
@@ -53,7 +57,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 	 */
 	public void setResult(VERDICT aResult)
 	{
-	    Trace.println(Trace.SETTER, "setResult( " + aResult + " )", true);
+		LOG.trace(Mark.SETTER, "{}", aResult);
 	    if (myResult.compareTo(aResult) < 0)
 	    {
 	        myResult = aResult;
@@ -64,7 +68,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 
 	public VERDICT getResult()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myResult;
 	}
 
@@ -82,13 +86,13 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 
 	public ParameterArrayList getParameters()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return ((TestStep) this.getTestEntry()).getParameters();
 	}
 
 	public void addSubStep( TestStepResultBase aSubStepResult )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aSubStepResult);
 	    mySubStepResults.add(aSubStepResult);
 	    
 	    this.setResult( aSubStepResult.getResult() );
@@ -96,7 +100,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 
 	public ArrayList<TestStepResultBase> getSubSteps()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySubStepResults;
 	}
 	

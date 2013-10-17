@@ -6,12 +6,15 @@ package org.testtoolinterfaces.testresult.impl;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestExecItemResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestExecItem;
 import org.testtoolinterfaces.testsuite.TestGroupEntry;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.testsuite.impl.TestCaseImpl;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -20,6 +23,8 @@ import org.testtoolinterfaces.utils.Trace;
 public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 		implements TestExecItemResult, TestStepResultObserver
 {
+    private static final Logger LOG = LoggerFactory.getLogger(TestCaseImpl.class);
+
     private Hashtable<Integer, TestStepResultBase> myPrepareResults;
     private Hashtable<Integer, TestStepResultBase> myRestoreResults;
     
@@ -29,8 +34,7 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	public TestExecItemResultImpl(TestGroupEntry aTestGroupEntry)
 	{
 		super( aTestGroupEntry );
-
-	    Trace.println(Trace.CONSTRUCTOR, "TestExecItemResultImpl( " + aTestGroupEntry + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}",  aTestGroupEntry );
 
 	    myPrepareResults = new Hashtable<Integer, TestStepResultBase>();
 		myRestoreResults = new Hashtable<Integer, TestStepResultBase>();
@@ -44,7 +48,7 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	 */
 	public void addInitialization(TestStepResultBase aPrepareResult)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aPrepareResult);
 	    myPrepareResults.put( myPrepareResults.size(), aPrepareResult );
 	    
 	    aPrepareResult.register(this);
@@ -60,7 +64,7 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	 */
 	public void addRestore(TestStepResultBase aRestoreResult)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aRestoreResult);
 	    myRestoreResults.put( myRestoreResults.size(), aRestoreResult );
 	    
 	    aRestoreResult.register(this);
@@ -70,41 +74,25 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 
 	public ArrayList<String> getRequirements()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return ((TestExecItem) this.getTestEntry()).getRequirements();
 	}
 	
 	public Hashtable<Integer, TestStepResultBase> getPrepareResults()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myPrepareResults;
 	}
 	
 	public Hashtable<Integer, TestStepResultBase> getRestoreResults()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myRestoreResults;
 	}
 
-//	@Override
-//	public void setExecutionPath(String anExecutionPath)
-//	{
-//		super.setExecutionPath(anExecutionPath);
-//		
-//	    for (TestStepResultBase result : myPrepareResults.values())
-//	    {
-//	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-//	    }
-//
-//	    for (TestStepResultBase result : myRestoreResults.values())
-//	    {
-//	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-//	    }
-//	}
-
 	public void notify(TestStepResultBase aTestStepResult)
 	{
-	    Trace.println(Trace.EXEC_UTIL);
+		LOG.trace(Mark.EXEC_UTIL, "");
 		notifyObservers();
 	}
 }

@@ -3,7 +3,6 @@
  */
 package org.testtoolinterfaces.testresult.impl;
 
-import org.testtoolinterfaces.testresult.TestGroupResult;
 import org.testtoolinterfaces.testsuite.TestGroup;
 
 /**

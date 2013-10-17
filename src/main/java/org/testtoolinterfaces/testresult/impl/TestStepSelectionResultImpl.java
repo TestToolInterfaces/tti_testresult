@@ -3,6 +3,8 @@
  */
 package org.testtoolinterfaces.testresult.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestStepResult;
 import org.testtoolinterfaces.testresult.TestStepResultList;
 import org.testtoolinterfaces.testresult.TestStepSelectionResult;
@@ -10,7 +12,7 @@ import org.testtoolinterfaces.testsuite.TestStep;
 import org.testtoolinterfaces.testsuite.impl.TestStepCommand;
 import org.testtoolinterfaces.testsuite.impl.TestStepScript;
 import org.testtoolinterfaces.testsuite.impl.TestStepSelection;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author arjan.kranenburg
@@ -18,7 +20,9 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestStepSelectionResultImpl extends TestStepResultImpl implements TestStepSelectionResult
 {
-	private TestStep ifStep;
+    private static final Logger LOG = LoggerFactory.getLogger(TestStepSelectionResultImpl.class);
+
+    private TestStep ifStep;
 	private TestStepResult ifStepResult;
 
 	/**
@@ -27,15 +31,14 @@ public class TestStepSelectionResultImpl extends TestStepResultImpl implements T
 	public TestStepSelectionResultImpl(TestStepSelection aTestStepSelection)
 	{
 		super( aTestStepSelection );
-
-	    Trace.println(Trace.CONSTRUCTOR, "TestStepSelectionResult( " + aTestStepSelection + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestStepSelection);
 
 	    this.ifStep = aTestStepSelection.getIfStep();
 	}
 
 	public String getCommand()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if ( this.ifStep instanceof TestStepCommand )
 	    {
 			return ((TestStepCommand) this.ifStep).getCommand();	    	
@@ -45,7 +48,7 @@ public class TestStepSelectionResultImpl extends TestStepResultImpl implements T
 
 	public String getScript()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if ( this.ifStep instanceof TestStepScript )
 	    {
 			return ((TestStepScript) this.ifStep).getScript();	    	
@@ -55,20 +58,20 @@ public class TestStepSelectionResultImpl extends TestStepResultImpl implements T
 
 	public void setIfStepResult( TestStepResult anIfStepResult )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anIfStepResult);
 	    this.ifStepResult = anIfStepResult;
 	}
 
 	public TestStepResult getIfStepResult()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return this.ifStepResult;
 	}
 	
 	@Override
 	public VERDICT getResult()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		if ( this.ifStepResult != null ) {
 			if ( this.ifStepResult.getResult().equals(VERDICT.ERROR)
 				 || this.ifStepResult.getResult().equals(VERDICT.UNKNOWN) ) {

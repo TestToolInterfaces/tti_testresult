@@ -4,12 +4,14 @@
 package org.testtoolinterfaces.testresult;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Calendar;
+import java.util.Hashtable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.observer.TestGroupResultObserver;
 import org.testtoolinterfaces.testresult.observer.TestRunResultObserver;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author Arjan Kranenburg
@@ -17,7 +19,9 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 {
-	public enum TEST_RUN_STATUS { STARTED, FINISHED };
+    private static final Logger LOG = LoggerFactory.getLogger(TestRunResult.class);
+
+    public enum TEST_RUN_STATUS { STARTED, FINISHED };
 
 	public final static TEST_RUN_STATUS STARTED  = TEST_RUN_STATUS.STARTED;
 	public final static TEST_RUN_STATUS FINISHED = TEST_RUN_STATUS.FINISHED;
@@ -52,7 +56,8 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 						  Calendar aStartDate,
 						  TEST_RUN_STATUS aStatus)
 	{
-	    Trace.println(Trace.CONSTRUCTOR);
+		LOG.trace(Mark.CONSTRUCTOR, "{}, {}, {}, {}, {}, {}, {}", aTestSuite,
+				aDisplayName, aAuthor, aMachine, aSut, aStartDate, aStatus);
 
 		myTestSuite = aTestSuite;
 		myDisplayName = aDisplayName;
@@ -72,7 +77,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public void setStatus(TEST_RUN_STATUS aStatus)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aStatus);
 		myStatus = aStatus;
 	    
 	    notifyObservers();
@@ -83,7 +88,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public void setEndDate(Calendar anEndDate)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anEndDate);
 	    myEndDate = anEndDate;
 	    
 	    notifyObservers();
@@ -94,7 +99,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public void setTestGroup(TestGroupResult aTestGroup)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aTestGroup);
 	    myTestGroup = aTestGroup;
 	    
 	    aTestGroup.register(this);
@@ -108,7 +113,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public void addSutLog(String aKey, String aLog)
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}, {}", aKey, aLog);
 		mySut.addSutLog(aKey, aLog);
 
 		notifyObservers();
@@ -116,7 +121,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 
 	public ResultSummary getSummary()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myTestGroup.getSummary();
 	}
 
@@ -125,7 +130,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public int getNrOfTCs()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getSummary().getNrOfTCs();
 	}
@@ -135,7 +140,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public int getNrOfTCsPassed()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getSummary().getNrOfTCsPassed();
 	}
@@ -145,7 +150,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public int getNrOfTCsFailed()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getSummary().getNrOfTCsFailed();
 	}
@@ -155,7 +160,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public int getNrOfTCsUnknown()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getSummary().getNrOfTCsUnknown();
 	}
@@ -165,7 +170,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public int getNrOfTCsError()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    if (myTestGroup == null) { return 0; }
 	    return myTestGroup.getSummary().getNrOfTCsError();
 	}
@@ -175,7 +180,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getAuthor()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myAuthor;
 	}
 
@@ -184,7 +189,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getDisplayName()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myDisplayName;
 	}
 
@@ -193,7 +198,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getMachine()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myMachine;
 	}
 
@@ -202,7 +207,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public Calendar getStartDate()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myStartDate;
 	}
 
@@ -211,7 +216,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getStartDateString()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return convertDateString( myStartDate );
 	}
 
@@ -220,7 +225,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getStartTimeString()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return convertTimeString( myStartDate );
 	}
 
@@ -229,7 +234,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public Calendar getEndDate()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myEndDate;
 	}
 
@@ -238,7 +243,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getEndDateString()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return convertDateString( myEndDate );
 	}
 
@@ -247,7 +252,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getEndTimeString()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return convertTimeString( myEndDate );
 	}
 
@@ -256,7 +261,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public Hashtable<String, String> getRunLogs()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myRunLogs;
 	}
 
@@ -265,7 +270,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public TEST_RUN_STATUS getStatus()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myStatus;
 	}
 
@@ -274,7 +279,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getSutDescription()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySut.getDescription();
 	}
 
@@ -283,7 +288,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public Hashtable<String, String> getSutLogs()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySut.getLogs();
 	}
 
@@ -292,7 +297,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getSutProduct()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySut.getName();
 	}
 
@@ -301,7 +306,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getSutVersionMainLevel()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySut.getVersionMainLevel();
 	}
 
@@ -310,7 +315,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getSutVersionSubLevel()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySut.getVersionSubLevel();
 	}
 
@@ -319,7 +324,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getSutVersionPatchLevel()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return mySut.getVersionPatchLevel();
 	}
 
@@ -328,13 +333,13 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	public String getTestSuite()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myTestSuite;
 	}
 
 	public TestGroupResult getTestGroup()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myTestGroup;
 	}
 
@@ -343,7 +348,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	private static String convertDateString( Calendar aDate )
 	{
-	    Trace.println(Trace.ALL);
+		LOG.trace(Mark.ALL, "{}", aDate);
 	    if ( aDate == null ) { return "Unknown"; }
 
 	    String dateString = aDate.get(Calendar.YEAR) + "-";
@@ -376,7 +381,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	 */
 	private static String convertTimeString( Calendar aDate )
 	{
-	    Trace.println(Trace.ALL);
+		LOG.trace(Mark.GETTER, "{}", aDate);
 	    if ( aDate == null ) { return "Unknown"; }
 
 	    String timeString = "";
@@ -419,7 +424,7 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	
 	private void notifyObservers()
 	{
-	    Trace.println(Trace.EXEC_PLUS);
+		LOG.trace(Mark.EXEC_PLUS, "");
 
 	    for (TestRunResultObserver observer : myObserverCollection)
 	    {
@@ -429,19 +434,19 @@ public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 	
 	public void register( TestRunResultObserver anObserver )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.add(anObserver);
 	}
 
 	public void unRegisterObserver( TestRunResultObserver anObserver )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.remove( anObserver );
 	}
 
 	public void notify(TestGroupResult aTestGroupResult)
 	{
-	    Trace.println(Trace.EXEC_UTIL);
+		LOG.trace(Mark.EXEC_UTIL, "{}", aTestGroupResult);
 		notifyObservers();
 	}
 }

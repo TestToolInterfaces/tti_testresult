@@ -5,11 +5,13 @@ package org.testtoolinterfaces.testresult.impl;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
 import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 /**
  * @author arjan.kranenburg
@@ -18,6 +20,8 @@ import org.testtoolinterfaces.utils.Trace;
 public abstract class TestStepResultBaseImpl extends TestResultImpl
 	implements TestStepResultBase
 {
+    private static final Logger LOG = LoggerFactory.getLogger(TestStepResultBaseImpl.class);
+
     private ArrayList<TestStepResultObserver> myObserverCollection;
 
 	private String myDisplayName = "";
@@ -29,7 +33,7 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 	{
 		super( aTestStep );
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestStepBaseResult( " + aTestStep + " )" );
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestStep);
 
 		myObserverCollection = new ArrayList<TestStepResultObserver>();
 		myDisplayName = aTestStep.getDisplayName();
@@ -41,13 +45,13 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 
 	public void setDisplayName( String aDisplayName )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", aDisplayName);
 	    myDisplayName = aDisplayName;
 	}
 	
 	public String getDisplayName()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myDisplayName;
 	}
 	
@@ -61,14 +65,14 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 
 	public ParameterArrayList getParameters()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return this.getTestStep().getParameters();
 	}
 
 	// Implementation of the Observer Pattern
 	protected void notifyObservers()
 	{
-	    Trace.println(Trace.EXEC_PLUS);
+		LOG.trace(Mark.EXEC_PLUS, "");
 
 	    for (TestStepResultObserver observer : myObserverCollection)
 	    {
@@ -78,13 +82,13 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 	
 	public void register( TestStepResultObserver anObserver )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.add(anObserver);
 	}
 
 	public void unRegisterObserver( TestStepResultObserver anObserver )
 	{
-	    Trace.println(Trace.SETTER);
+		LOG.trace(Mark.SETTER, "{}", anObserver);
 	    myObserverCollection.remove( anObserver );
 	}
 }

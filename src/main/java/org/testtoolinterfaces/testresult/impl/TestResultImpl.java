@@ -7,13 +7,17 @@ package org.testtoolinterfaces.testresult.impl;
 import java.util.Hashtable;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testtoolinterfaces.testresult.TestResult;
 import org.testtoolinterfaces.testsuite.TestEntry;
-import org.testtoolinterfaces.utils.Trace;
+import org.testtoolinterfaces.utils.Mark;
 
 public abstract class TestResultImpl implements TestResult
 {
-	private TestEntry myTestEntry;
+    private static final Logger LOG = LoggerFactory.getLogger(TestResultImpl.class);
+
+    private TestEntry myTestEntry;
 	
 	private Hashtable<String, String> myLogs;
 	private String myComment = "";
@@ -25,7 +29,7 @@ public abstract class TestResultImpl implements TestResult
 	private boolean testFinished = false;
 	
 	public TestResultImpl(TestEntry aTestEntry)	{
-	    Trace.println(Trace.CONSTRUCTOR);
+		LOG.trace(Mark.CONSTRUCTOR, "{}", aTestEntry);
 
 	    myTestEntry = aTestEntry;
 		myLogs = new Hashtable<String, String>();
@@ -42,12 +46,12 @@ public abstract class TestResultImpl implements TestResult
 
 	public int getSequenceNr()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 		return myTestEntry.getSequenceNr();
 	}
 
 	public void addTestLog(String aKey, String aLog) {
-	    Trace.println(Trace.SETTER, "addTestLog( " + aKey + ", " + aLog + " )", true);
+		LOG.trace(Mark.SETTER, "{}, {}",  aKey, aLog);
 
 	    myLogs.put(aKey, aLog);
 	    notifyObservers();
@@ -55,8 +59,8 @@ public abstract class TestResultImpl implements TestResult
 
 	public void setComment(String aComment)
 	{
+		LOG.trace(Mark.SETTER, "{}", aComment);
 		if ( aComment != null ) {
-		    Trace.println(Trace.SETTER, "setComment( " + aComment + " )", true);
 		    myComment = aComment;
 		    notifyObservers();
 		}
@@ -74,13 +78,13 @@ public abstract class TestResultImpl implements TestResult
 
 	public Hashtable<String, String> getLogs()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myLogs;
 	}
 
 	public String getComment()
 	{
-	    Trace.println(Trace.GETTER);
+		LOG.trace(Mark.GETTER, "");
 	    return myComment;
 	}
 
