@@ -8,7 +8,7 @@ import java.io.File;
 import org.testtoolinterfaces.testresult.ResultSummary;
 import org.testtoolinterfaces.testresult.TestGroupResult;
 import org.testtoolinterfaces.testresult.TestGroupResultLink;
-import org.testtoolinterfaces.testresult.TestGroupResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestGroupResultObserver;
 import org.testtoolinterfaces.testsuite.TestGroupLink;
 import org.testtoolinterfaces.utils.Trace;
 

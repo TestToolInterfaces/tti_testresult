@@ -5,11 +5,13 @@ package org.testtoolinterfaces.testresult;
 
 import java.util.Hashtable;
 
+import org.testtoolinterfaces.testresult.observer.TestCaseResultObserver;
+
 /**
  * @author Arjan Kranenburg
  * 
  */
-public interface TestCaseResult extends TestExecItemResult {
+public interface TestCaseResult extends TestExecItemResult, SingleResult {
 
 	/**
 	 * Sets the result, but only if the new verdict is higher in order.
@@ -22,8 +24,6 @@ public interface TestCaseResult extends TestExecItemResult {
 	 * @param aResult
 	 */
 	public void setResult(VERDICT aResult);
-
-	public VERDICT getResult();
 
 	/**
 	 * @param anExecutionResult

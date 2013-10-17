@@ -5,6 +5,7 @@ package org.testtoolinterfaces.testresult.impl;
 
 //import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.UUID;
 
 import org.testtoolinterfaces.testresult.TestResult;
 import org.testtoolinterfaces.testsuite.TestEntry;
@@ -19,12 +20,16 @@ public abstract class TestResultImpl implements TestResult
 //    private Calendar myStartDate;
 //    private Calendar myEndDate;
 	private String myExecutionPath = "";
+	private final UUID uniqueId;
+
+	private boolean testFinished = false;
 	
 	public TestResultImpl(TestEntry aTestEntry)	{
 	    Trace.println(Trace.CONSTRUCTOR);
 
 	    myTestEntry = aTestEntry;
 		myLogs = new Hashtable<String, String>();
+		uniqueId = UUID.randomUUID();
 	}
 
 	protected TestEntry getTestEntry() {
@@ -50,9 +55,11 @@ public abstract class TestResultImpl implements TestResult
 
 	public void setComment(String aComment)
 	{
-	    Trace.println(Trace.SETTER, "setComment( " + aComment + " )", true);
-	    myComment = aComment;
-	    notifyObservers();
+		if ( aComment != null ) {
+		    Trace.println(Trace.SETTER, "setComment( " + aComment + " )", true);
+		    myComment = aComment;
+		    notifyObservers();
+		}
 	}
 
 	/**
@@ -94,6 +101,19 @@ public abstract class TestResultImpl implements TestResult
 	public void setExecutionPath(String anExecutionPath) {
 		this.myExecutionPath = anExecutionPath;
 	}
+
+	public boolean isTestFinished() {
+		return testFinished ;
+	}
+
+	public void setTestFinished() {
+		this.testFinished = true;
+	}
+
+	public UUID getUniqueId() {
+		return uniqueId;
+	}
+
 
 	/*
 	 * Can be overriden by childs if they implement the observer pattern

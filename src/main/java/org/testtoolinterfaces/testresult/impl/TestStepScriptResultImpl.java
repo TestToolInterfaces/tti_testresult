@@ -4,7 +4,7 @@
 package org.testtoolinterfaces.testresult.impl;
 
 import org.testtoolinterfaces.testresult.TestStepScriptResult;
-import org.testtoolinterfaces.testsuite.TestStepScript;
+import org.testtoolinterfaces.testsuite.impl.TestStepScript;
 import org.testtoolinterfaces.utils.Trace;
 
 /**

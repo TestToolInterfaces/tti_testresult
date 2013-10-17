@@ -7,7 +7,7 @@ import java.io.File;
 
 import org.testtoolinterfaces.testresult.TestCaseResult;
 import org.testtoolinterfaces.testresult.TestCaseResultLink;
-import org.testtoolinterfaces.testresult.TestCaseResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestCaseResultObserver;
 import org.testtoolinterfaces.testsuite.TestCaseLink;
 import org.testtoolinterfaces.utils.Trace;
 
@@ -18,8 +18,7 @@ import org.testtoolinterfaces.utils.Trace;
 public class TestCaseResultLinkImpl extends TestExecItemResultLinkImpl
 	implements TestCaseResultLink, TestCaseResultObserver
 {
-	private VERDICT myVerdict;
-	private TestCaseResult myLoadedTcResult;
+	private VERDICT verdict;
 
 	/**
 	 * @param aTcLink
@@ -32,42 +31,22 @@ public class TestCaseResultLinkImpl extends TestExecItemResultLinkImpl
 		super(aTcLink, aLink);
 	    Trace.println(Trace.CONSTRUCTOR, "TestGroupResultLink( " + aTcLink.getId() + ", "
 	                  											 + aLink + " )" );
-	    myVerdict = aVerdict;
-		myLoadedTcResult = null;
-	}
-
-	/**
-	 * If the link was used before to read the TestCase Result and it was stored with {@link #setTcResult(TestCaseResult)},
-	 * you can get it here so you don't have to read it again.
-	 * 
-	 * @return The TestCaseResult, null if it was not read before.
-	 */
-	public TestCaseResult getTcResult()
-	{
-		return myLoadedTcResult;
+	    verdict = aVerdict;
 	}
 
 	public VERDICT getResult()
 	{
 	    Trace.println(Trace.GETTER);
-	    if ( myLoadedTcResult == null ) {
-	    	return myVerdict;
-	    }
-	    return myLoadedTcResult.getResult();
+	    	return verdict;
 	}
 
-	/**
-	 * Sets the TC result object. If the link was followed and read, store the result here to
-	 * prevent re-reading it in the future.
-	 * @param myLoadedTcResult
-	 */
-	public void setTcResult(TestCaseResult myLoadedTcResult)
-	{
-		this.myLoadedTcResult = myLoadedTcResult;
+	public void setResult(VERDICT verdict) {
+		this.verdict = verdict;
+	    notifyObservers();		
 	}
 
 	public void notify(TestCaseResult aTestCaseResult) {
 	    Trace.println(Trace.EXEC_UTIL);
-		notifyObservers();
+	    this.setResult(aTestCaseResult.getResult()); // also does notifyObservers()
 	}
 }

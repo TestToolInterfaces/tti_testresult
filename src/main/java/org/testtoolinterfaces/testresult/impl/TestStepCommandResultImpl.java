@@ -4,7 +4,7 @@
 package org.testtoolinterfaces.testresult.impl;
 
 import org.testtoolinterfaces.testresult.TestStepCommandResult;
-import org.testtoolinterfaces.testsuite.TestStepCommand;
+import org.testtoolinterfaces.testsuite.impl.TestStepCommand;
 import org.testtoolinterfaces.utils.Trace;
 
 /**
@@ -21,7 +21,7 @@ public class TestStepCommandResultImpl extends TestStepResultImpl implements Tes
 	{
 		super( aTestStepCommand );
 
-	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStepCommand + " )" );
+	    Trace.println(Trace.CONSTRUCTOR, "TestStepCommandResultImpl( " + aTestStepCommand + " )" );
 	}
 
 	public String getCommand()

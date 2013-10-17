@@ -3,14 +3,14 @@
  */
 package org.testtoolinterfaces.testresult;
 
+import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
+
 /**
  * @author arjan.kranenburg
  *
  */
-public interface TestStepResultBase extends TestResult
+public interface TestStepResultBase extends TestResult, SingleResult
 {
-	public VERDICT getResult();
-
 	public void setDisplayName( String aDisplayName );
 	
 	public String getDisplayName();

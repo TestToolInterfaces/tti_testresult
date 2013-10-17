@@ -3,7 +3,7 @@
  */
 package org.testtoolinterfaces.testresult;
 
-import org.testtoolinterfaces.testresult.TestResult.VERDICT;
+import org.testtoolinterfaces.testresult.SingleResult.VERDICT;
 import org.testtoolinterfaces.utils.Trace;
 
 /**
@@ -93,11 +93,6 @@ public class ResultSummary
 	    return myNrOfTCsError;
 	}
 
-	public void setResult(VERDICT aResult)
-	{
-		// NOP
-	}
-	
 	/**
 	 * @return VERDICT.UNKNOWN (Always)
 	 * Note: There is no total verdict.
@@ -157,8 +152,8 @@ public class ResultSummary
 			VERDICT verdict = ((TestCaseResultLink) tgEntryResult).getResult();
 			this.addVerdict(verdict);
 		}
-		else if ( tgEntryResult instanceof TestExecItemIterationResult ) {
-			ResultSummary tgSummary = ((TestExecItemIterationResult) tgEntryResult).getSummary();
+		else if ( tgEntryResult instanceof TestGroupEntryIterationResult ) {
+			ResultSummary tgSummary = ((TestGroupEntryIterationResult) tgEntryResult).getSummary();
 			this.addSummary(tgSummary);
 		}
 		else {

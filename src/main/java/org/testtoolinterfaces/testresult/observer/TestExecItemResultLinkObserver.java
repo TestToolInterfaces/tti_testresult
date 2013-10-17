@@ -1,4 +1,6 @@
-package org.testtoolinterfaces.testresult;
+package org.testtoolinterfaces.testresult.observer;
+
+import org.testtoolinterfaces.testresult.TestExecItemResultLink;
 
 public interface TestExecItemResultLinkObserver
 {

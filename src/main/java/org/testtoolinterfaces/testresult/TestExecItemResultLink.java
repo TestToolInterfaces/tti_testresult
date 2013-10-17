@@ -5,6 +5,8 @@ package org.testtoolinterfaces.testresult;
 
 import java.io.File;
 
+import org.testtoolinterfaces.testresult.observer.TestExecItemResultLinkObserver;
+
 
 /**
  * @author Arjan Kranenburg

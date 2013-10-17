@@ -3,27 +3,23 @@
  */
 package org.testtoolinterfaces.testresult;
 
+import org.testtoolinterfaces.testresult.observer.TestCaseResultObserver;
+
 /**
  * @author Arjan Kranenburg
  *
  */
-public interface TestCaseResultLink extends TestExecItemResultLink
+public interface TestCaseResultLink extends TestExecItemResultLink, SingleResult, TestCaseResultObserver
 {
 	/**
-	 * If the link was used before to read the TestCase Result and it was stored with {@link #setTcResult(TestCaseResult)},
-	 * you can get it here so you don't have to read it again.
+	 * Sets the result, but only if the new verdict is higher in order.
+	 * The order is UNKOWN, PASSED, ERROR, FAILED
+	 * E.g. 1) When current value is UNKNOWN, calling setResult( "ERROR" ) will actually
+	 *         change the verdict to ERROR. 
+	 *      2) When current value is FAILED, calling setResult( "PASSED" ) will leave the
+	 *         verdict on FAILED.
 	 * 
-	 * @return The TestCaseResult, null if it was not read before.
+	 * @param aResult
 	 */
-	public TestCaseResult getTcResult();
-
-	public VERDICT getResult();
-
-	/**
-	 * Sets the TC result object. If the link was followed and read, store the result here to
-	 * prevent re-reading it in the future.
-	 * @param myLoadedTcResult
-	 */
-	public void setTcResult(TestCaseResult myLoadedTcResult);
-
+	public void setResult(VERDICT aResult);
 }

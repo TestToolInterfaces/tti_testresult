@@ -4,11 +4,12 @@
 package org.testtoolinterfaces.testresult.impl;
 
 import org.testtoolinterfaces.testresult.TestStepResult;
+import org.testtoolinterfaces.testresult.TestStepResultList;
 import org.testtoolinterfaces.testresult.TestStepSelectionResult;
 import org.testtoolinterfaces.testsuite.TestStep;
-import org.testtoolinterfaces.testsuite.TestStepCommand;
-import org.testtoolinterfaces.testsuite.TestStepScript;
-import org.testtoolinterfaces.testsuite.TestStepSelection;
+import org.testtoolinterfaces.testsuite.impl.TestStepCommand;
+import org.testtoolinterfaces.testsuite.impl.TestStepScript;
+import org.testtoolinterfaces.testsuite.impl.TestStepSelection;
 import org.testtoolinterfaces.utils.Trace;
 
 /**
@@ -17,8 +18,8 @@ import org.testtoolinterfaces.utils.Trace;
  */
 public class TestStepSelectionResultImpl extends TestStepResultImpl implements TestStepSelectionResult
 {
-	private TestStepResult ifStepResult;
 	private TestStep ifStep;
+	private TestStepResult ifStepResult;
 
 	/**
 	 * @param aTestCaseName
@@ -76,5 +77,11 @@ public class TestStepSelectionResultImpl extends TestStepResultImpl implements T
 		} //else
 		
 		return super.getResult();
+	}
+
+	public void setSubStepResults(TestStepResultList subStepResults) {
+		super.setSubEntryResults(subStepResults);
+		
+		this.notifyObservers();		
 	}
 }

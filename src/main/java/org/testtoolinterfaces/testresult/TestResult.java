@@ -4,23 +4,10 @@
 package org.testtoolinterfaces.testresult;
 
 import java.util.Hashtable;
+import java.util.UUID;
 
 public interface TestResult
 {
-	public static enum VERDICT
-	{
-	    UNKNOWN,
-	    PASSED,
-	    ERROR,
-	    FAILED;
-	}
-
-	public final static VERDICT UNKNOWN	= VERDICT.UNKNOWN;
-	public final static VERDICT PASSED	= VERDICT.PASSED;
-	public final static VERDICT ERROR	= VERDICT.ERROR;
-	public final static VERDICT FAILED	= VERDICT.FAILED;
-
-
 	public String getDescription();
 	
 	public int getSequenceNr();
@@ -57,5 +44,23 @@ public interface TestResult
 	/**
 	 * @param anExecutionPath the executionPath to set
 	 */
+	@Deprecated
 	public void setExecutionPath(String anExecutionPath);
+	
+	/**
+	 * Indicates if a test is finished
+	 * 
+	 * @return true when the test is finished, false otherwise
+	 */
+	public boolean isTestFinished();
+	
+	/**
+	 * Sets the test to finished, i.e. all sub groups, cases, and/or steps (including restore) are done.
+	 */
+	public void setTestFinished();
+	
+	/**
+	 * @return a Universal Unique Identifier
+	 */
+	public UUID getUniqueId();
 }

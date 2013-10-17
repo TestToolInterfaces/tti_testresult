@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.testtoolinterfaces.testresult.TestCaseResult;
-import org.testtoolinterfaces.testresult.TestCaseResultObserver;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
-import org.testtoolinterfaces.testresult.TestStepResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestCaseResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestCase;
 import org.testtoolinterfaces.utils.Trace;
 
@@ -82,16 +82,16 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	    notifyObservers();
 	}
 
-	@Override
-	public void setExecutionPath(String anExecutionPath)
-	{
-		super.setExecutionPath(anExecutionPath);
-		
-	    for (TestStepResultBase result : myExecutionResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
-	}
+//	@Override
+//	public void setExecutionPath(String anExecutionPath)
+//	{
+//		super.setExecutionPath(anExecutionPath);
+//		
+//	    for (TestStepResultBase result : myExecutionResults.values())
+//	    {
+//	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+//	    }
+//	}
 
 	public ArrayList<String> getRequirements()
 	{
@@ -127,5 +127,13 @@ public class TestCaseResultImpl extends TestExecItemResultImpl
 	{
 	    Trace.println(Trace.SETTER);
 	    myObserverCollection.remove( anObserver );
+	}
+
+	public void notify(TestStepResultBase aTestStepResult)
+	{
+	    Trace.println(Trace.EXEC_UTIL);
+	    
+		setResult(aTestStepResult.getResult());
+		notifyObservers();
 	}
 }

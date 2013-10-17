@@ -10,8 +10,8 @@ import java.util.List;
 import org.testtoolinterfaces.testresult.TestStepIterationResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
-import org.testtoolinterfaces.testresult.TestStepResultObserver;
-import org.testtoolinterfaces.testsuite.TestStepIteration;
+import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
+import org.testtoolinterfaces.testsuite.impl.TestStepIteration;
 import org.testtoolinterfaces.utils.Trace;
 
 /**

@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.testtoolinterfaces.testresult.TestExecItemResultLink;
-import org.testtoolinterfaces.testresult.TestExecItemResultLinkObserver;
+import org.testtoolinterfaces.testresult.observer.TestExecItemResultLinkObserver;
 import org.testtoolinterfaces.testsuite.TestExecItemLink;
 import org.testtoolinterfaces.utils.Trace;
 

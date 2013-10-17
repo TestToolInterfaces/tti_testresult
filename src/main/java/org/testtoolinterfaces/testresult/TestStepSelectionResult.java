@@ -16,4 +16,6 @@ public interface TestStepSelectionResult extends TestStepResult
 	public void setIfStepResult( TestStepResult anIfStepResult );
 
 	public TestStepResult getIfStepResult();
+
+	public void setSubStepResults(TestStepResultList subStepResults);
 }

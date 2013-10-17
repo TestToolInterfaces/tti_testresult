@@ -6,7 +6,7 @@ package org.testtoolinterfaces.testresult.impl;
 import java.util.ArrayList;
 
 import org.testtoolinterfaces.testresult.TestStepResultBase;
-import org.testtoolinterfaces.testresult.TestStepResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
 import org.testtoolinterfaces.utils.Trace;
@@ -35,6 +35,10 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 		myDisplayName = aTestStep.getDisplayName();
 	}
 
+	private TestStep getTestStep() {
+		return (TestStep) getTestEntry();
+	}
+
 	public void setDisplayName( String aDisplayName )
 	{
 	    Trace.println(Trace.SETTER);
@@ -58,7 +62,7 @@ public abstract class TestStepResultBaseImpl extends TestResultImpl
 	public ParameterArrayList getParameters()
 	{
 	    Trace.println(Trace.GETTER);
-		return ((TestStep) this.getTestEntry()).getParameters();
+		return this.getTestStep().getParameters();
 	}
 
 	// Implementation of the Observer Pattern

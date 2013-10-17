@@ -10,13 +10,13 @@ import java.util.List;
 
 import org.testtoolinterfaces.testresult.ResultSummary;
 import org.testtoolinterfaces.testresult.TestCaseResultLink;
-import org.testtoolinterfaces.testresult.TestCaseResultLinkObserver;
-import org.testtoolinterfaces.testresult.TestExecItemIterationResult;
+import org.testtoolinterfaces.testresult.TestGroupEntryIterationResult;
 import org.testtoolinterfaces.testresult.TestGroupEntryResult;
 import org.testtoolinterfaces.testresult.TestGroupResultLink;
-import org.testtoolinterfaces.testresult.TestGroupResultLinkObserver;
-import org.testtoolinterfaces.testresult.TestGroupResultObserver;
 import org.testtoolinterfaces.testresult.TestStepResult;
+import org.testtoolinterfaces.testresult.observer.TestCaseResultLinkObserver;
+import org.testtoolinterfaces.testresult.observer.TestGroupResultLinkObserver;
+import org.testtoolinterfaces.testresult.observer.TestGroupResultObserver;
 import org.testtoolinterfaces.testsuite.TestGroupEntryIteration;
 import org.testtoolinterfaces.utils.Trace;
 
@@ -24,16 +24,17 @@ import org.testtoolinterfaces.utils.Trace;
  * @author Arjan Kranenburg
  *
  */
-public class TestExecItemIterationResultImpl extends TestGroupEntryResultImpl
-	implements TestExecItemIterationResult, TestGroupResultLinkObserver, TestCaseResultLinkObserver
-{
+public class TestGroupEntryIterationResultImpl extends TestGroupEntryResultImpl
+	implements TestGroupEntryIterationResult,
+		TestGroupResultLinkObserver, TestCaseResultLinkObserver {
+
 	private Hashtable<Integer, List<TestGroupEntryResult>> execResults;
 	private Hashtable<Integer, Object> iterationValues;
 	private Hashtable<Integer, TestStepResult> untilResults;
 
 	private ArrayList<TestGroupResultObserver> myObserverCollection;
 	
-	public TestExecItemIterationResultImpl(TestGroupEntryIteration aTestGroupEntryIteration) {
+	public TestGroupEntryIterationResultImpl(TestGroupEntryIteration aTestGroupEntryIteration) {
 		super(aTestGroupEntryIteration);
 
 		execResults = new Hashtable<Integer, List<TestGroupEntryResult>>();

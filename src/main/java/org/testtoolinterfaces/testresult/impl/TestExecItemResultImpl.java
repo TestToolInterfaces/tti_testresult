@@ -8,7 +8,7 @@ import java.util.Hashtable;
 
 import org.testtoolinterfaces.testresult.TestExecItemResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
-import org.testtoolinterfaces.testresult.TestStepResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestStepResultObserver;
 import org.testtoolinterfaces.testsuite.TestExecItem;
 import org.testtoolinterfaces.testsuite.TestGroupEntry;
 import org.testtoolinterfaces.utils.Trace;
@@ -37,6 +37,9 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	}
 
 	/**
+	 * Adds the result as a preparation result.
+	 * This result is also registered with the added result in order to be notified of updates.
+	 * 
 	 * @param aPrepareResult
 	 */
 	public void addInitialization(TestStepResultBase aPrepareResult)
@@ -50,6 +53,9 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 	}
 
 	/**
+	 * Adds the result as a restore result.
+	 * This result is also registered with the added result in order to be notified of updates.
+	 * 
 	 * @param anInitializationResult
 	 */
 	public void addRestore(TestStepResultBase aRestoreResult)
@@ -80,21 +86,21 @@ public abstract class TestExecItemResultImpl extends TestGroupEntryResultImpl
 		return myRestoreResults;
 	}
 
-	@Override
-	public void setExecutionPath(String anExecutionPath)
-	{
-		super.setExecutionPath(anExecutionPath);
-		
-	    for (TestStepResultBase result : myPrepareResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
-
-	    for (TestStepResultBase result : myRestoreResults.values())
-	    {
-	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
-	    }
-	}
+//	@Override
+//	public void setExecutionPath(String anExecutionPath)
+//	{
+//		super.setExecutionPath(anExecutionPath);
+//		
+//	    for (TestStepResultBase result : myPrepareResults.values())
+//	    {
+//	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+//	    }
+//
+//	    for (TestStepResultBase result : myRestoreResults.values())
+//	    {
+//	    	result.setExecutionPath(anExecutionPath + "." + this.getId());
+//	    }
+//	}
 
 	public void notify(TestStepResultBase aTestStepResult)
 	{

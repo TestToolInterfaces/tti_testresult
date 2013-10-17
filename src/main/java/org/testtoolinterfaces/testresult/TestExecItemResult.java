@@ -6,7 +6,6 @@ package org.testtoolinterfaces.testresult;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
 /**
  * @author Arjan Kranenburg
  *
@@ -29,4 +28,5 @@ public interface TestExecItemResult extends TestGroupEntryResult
 	 * @param aRestoreResult
 	 */
 	public void addRestore(TestStepResultBase aRestoreResult);
+
 }

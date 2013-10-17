@@ -9,12 +9,13 @@ import java.util.Iterator;
 import org.testtoolinterfaces.testresult.ParameterResult;
 import org.testtoolinterfaces.testresult.TestStepResult;
 import org.testtoolinterfaces.testresult.TestStepResultBase;
+import org.testtoolinterfaces.testresult.TestStepResultList;
 import org.testtoolinterfaces.testsuite.ParameterArrayList;
 import org.testtoolinterfaces.testsuite.TestStep;
-import org.testtoolinterfaces.testsuite.TestStepCommand;
-import org.testtoolinterfaces.testsuite.TestStepIteration;
-import org.testtoolinterfaces.testsuite.TestStepScript;
-import org.testtoolinterfaces.testsuite.TestStepSelection;
+import org.testtoolinterfaces.testsuite.impl.TestStepCommand;
+import org.testtoolinterfaces.testsuite.impl.TestStepIteration;
+import org.testtoolinterfaces.testsuite.impl.TestStepScript;
+import org.testtoolinterfaces.testsuite.impl.TestStepSelection;
 import org.testtoolinterfaces.utils.Trace;
 
 /**
@@ -25,7 +26,7 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 {
 	private VERDICT myResult = VERDICT.UNKNOWN;
 
-	private ArrayList<TestStepResultBase> mySubStepResults;
+	private TestStepResultList mySubStepResults;
     private ArrayList<ParameterResult> myParameterResults;
 
 	/**
@@ -37,12 +38,12 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 
 	    Trace.println(Trace.CONSTRUCTOR, "TestStepResult( " + aTestStep + " )" );
 
-	    mySubStepResults = new ArrayList<TestStepResultBase>();
+	    mySubStepResults = new TestStepResultList();
 	}
 
 	/**
 	 * Sets the result, but only if the new verdict is higher in order.
-	 * The order is UNKOWN, PASSED, ERROR, FAILED
+	 * The order is UNKOWN, PASSED, FAILED, ERROR
 	 * E.g. 1) When current value is UNKNOWN, calling setResult( "ERROR" ) will actually
 	 *         change the verdict to ERROR. 
 	 *      2) When current value is FAILED, calling setResult( "PASSED" ) will leave the
@@ -123,5 +124,10 @@ public abstract class TestStepResultImpl extends TestStepResultBaseImpl implemen
 		//Unknown
 		TestStepScript step = new TestStepScript(aStep.getSequenceNr(), "unknown", "unknown" );
 		return new TestStepScriptResultImpl( step );
+	}
+
+	protected void setSubEntryResults(TestStepResultList subStepResults) {
+		this.mySubStepResults = subStepResults;
+		this.myResult = subStepResults.getResult();
 	}
 }

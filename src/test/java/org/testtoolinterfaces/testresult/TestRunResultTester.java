@@ -8,15 +8,16 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.testtoolinterfaces.testresult.TestResult.VERDICT;
+import org.testtoolinterfaces.testresult.SingleResult.VERDICT;
 import org.testtoolinterfaces.testresult.TestRunResult.TEST_RUN_STATUS;
 import org.testtoolinterfaces.testresult.impl.TestCaseResultLinkImpl;
 import org.testtoolinterfaces.testresult.impl.TestGroupResultImpl;
+import org.testtoolinterfaces.testresult.observer.TestRunResultObserver;
 import org.testtoolinterfaces.testsuite.TestCaseLink;
 import org.testtoolinterfaces.testsuite.TestGroupEntrySequence;
-import org.testtoolinterfaces.testsuite.TestGroupImpl;
-import org.testtoolinterfaces.testsuite.TestLinkImpl;
 import org.testtoolinterfaces.testsuite.TestStepSequence;
+import org.testtoolinterfaces.testsuite.impl.TestGroupImpl;
+import org.testtoolinterfaces.testsuite.impl.TestLinkImpl;
 
 public class TestRunResultTester extends TestCase implements TestRunResultObserver
 {

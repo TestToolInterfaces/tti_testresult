@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Calendar;
 
+import org.testtoolinterfaces.testresult.observer.TestGroupResultObserver;
+import org.testtoolinterfaces.testresult.observer.TestRunResultObserver;
 import org.testtoolinterfaces.utils.Trace;
 
 /**
  * @author Arjan Kranenburg
  *
  */
-public class TestRunResult implements TestGroupResultObserver
+public class TestRunResult implements TestGroupResultObserver, AggregatedResult
 {
 	public enum TEST_RUN_STATUS { STARTED, FINISHED };
 
